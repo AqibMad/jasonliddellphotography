@@ -1,0 +1,63 @@
+/* AGGRESSIVE VIEW GRID OVERRIDE - Force 3-column grid on any view */
+
+/* Override Drupal's default view display */
+body.path-store .views-view-unformatted,
+body.path-store .view-content,
+body.path-store .views-element-container,
+body.view--store .views-view-unformatted,
+body.view--store .view-content {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 35px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Override all view rows/items */
+body.path-store .views-row,
+body.path-store .view-content > *,
+body.view--store .views-row,
+body.view--store .view-content > * {
+  display: block !important;
+  width: 100% !important;
+  float: none !important;
+  clear: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: none !important;
+}
+
+/* Responsive tablet */
+@media (max-width: 992px) {
+  body.path-store .views-view-unformatted,
+  body.path-store .view-content,
+  body.view--store .views-view-unformatted,
+  body.view--store .view-content {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 30px !important;
+  }
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+  body.path-store .views-view-unformatted,
+  body.path-store .view-content,
+  body.view--store .views-view-unformatted,
+  body.view--store .view-content {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+}
+
+/* Responsive small mobile */
+@media (max-width: 576px) {
+  body.path-store .views-view-unformatted,
+  body.path-store .view-content,
+  body.view--store .views-view-unformatted,
+  body.view--store .view-content {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+}

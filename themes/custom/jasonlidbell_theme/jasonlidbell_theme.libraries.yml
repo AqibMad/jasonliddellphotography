@@ -13,6 +13,8 @@ global-styling:
       css/blog.css: { weight: 125 }
       css/blog-detail.css: { weight: 130 }
       css/product-new.css: { weight: 145 }
+      css/store.css: { weight: 150 }
+      css/views-override.css: { weight: 200 }
       css/testimonials.css: { weight: 135 }
       css/testimonials-slider.css: { weight: 136 }
       css/discreet-service-style.css: { weight: 140 }
@@ -25,3 +27,10 @@ global-styling:
     - core/drupal
     - core/drupalSettings
     - core/once
+
+store-styling:
+  version: 1.0
+  css:
+    theme:
+      css/store.css: {}
+      css/views-override.css: { weight: 10 }

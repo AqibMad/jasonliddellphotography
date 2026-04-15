@@ -93,3 +93,51 @@ function jasonlidbell_theme_preprocess_commerce_product(&$variables) {
     $variables['product_prices'] = $prices;
   }
 }
+
+function jasonlidbell_theme_preprocess_view(&$variables) {
+  $view = $variables['view'];
+  
+  // Check if this is a store/products view
+  if (in_array($view->id(), ['store', 'products', 'product_store', 'product_catalog'])) {
+    // Add multiple classes to ensure grid applies
+    $variables['attributes']['class'][] = 'store-view';
+    $variables['attributes']['class'][] = 'products-view';
+    $variables['attributes']['class'][] = 'view-store';
+    $variables['attributes']['class'][] = 'view--store';
+    
+    // Attach the store CSS library
+    $variables['#attached']['library'][] = 'jasonlidbell_theme/store-styling';
+  }
+}
+
+function jasonlidbell_theme_preprocess_views_view(&$variables) {
+  $view = $variables['view'];
+  
+  // For store views, ensure grid display
+  if (in_array($view->id(), ['store', 'products', 'product_store', 'product_catalog'])) {
+    $variables['attributes']['class'][] = 'store-view';
+    $variables['attributes']['class'][] = 'view--store';
+  }
+}
+
+function jasonlidbell_theme_preprocess_views_view_unformatted(&$variables) {
+  $view = $variables['view'];
+  
+  // Add classes to wrapper
+  if (in_array($view->id(), ['store', 'products', 'product_store', 'product_catalog'])) {
+    $variables['attributes']['class'][] = 'products-grid';
+    $variables['attributes']['class'][] = 'view-content';
+  }
+}
+
+function jasonlidbell_theme_preprocess_commerce_product_teaser(&$variables) {
+  $variables['attributes']['class'][] = 'product-card';
+  
+  // For store views, use teaser display mode
+  if (isset($variables['view'])) {
+    $view = $variables['view'];
+    if (in_array($view->id(), ['store', 'products', 'product_store', 'product_catalog'])) {
+      $variables['attributes']['class'][] = 'store-product-teaser';
+    }
+  }
+}
