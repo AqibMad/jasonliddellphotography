@@ -912,7 +912,7 @@ $databases['default']['default'] = array (
   'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
 
-$settings['config_sync_directory'] = 'sites/default/files/config_sync';
+$settings['config_sync_directory'] = 'sites/default/files/config_agbcIcNVIb9K1RUS__FnMqixVUEOYlauMGpnnvDPCWt8ryCpyCY4PbLztmtx2qzod76Hqehi1w';
 
 
 error_reporting(E_ALL);
