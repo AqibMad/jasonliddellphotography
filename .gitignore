@@ -7,4 +7,4 @@
 # =========================
 # Drupal core / scaffold (if web root is project root)
 # =========================
-/core/
+/sites/default/files/
