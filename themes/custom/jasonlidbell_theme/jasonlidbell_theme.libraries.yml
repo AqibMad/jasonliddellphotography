@@ -12,6 +12,7 @@ global-styling:
       css/content-pages.css: { weight: 120 }
       css/blog.css: { weight: 125 }
       css/blog-detail.css: { weight: 130 }
+      css/product-new.css: { weight: 145 }
       css/testimonials.css: { weight: 135 }
       css/testimonials-slider.css: { weight: 136 }
       css/discreet-service-style.css: { weight: 140 }

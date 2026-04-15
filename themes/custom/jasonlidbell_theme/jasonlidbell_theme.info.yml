@@ -4,6 +4,9 @@ description: 'A custom photography portfolio theme for Jason Lidbell Photography
 core_version_requirement: ^10 || ^11
 base theme: false
 
+features:
+  - logo
+
 regions:
   header: 'Header'
   sidebar_first: 'Sidebar Navigation'

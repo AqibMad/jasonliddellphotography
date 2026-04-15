@@ -1,0 +1,129 @@
+{#
+/**
+ * @file
+ * Modern Commerce Product template with responsive design
+ */
+#}
+
+<div{{ attributes.addClass('product-page') }}>
+  <div class="product-container">
+
+    {# Product Header #}
+    <div class="product-header">
+      <h1 class="product-title">{{ product_entity.title.value }}</h1>
+    </div>
+
+    <div class="product-content">
+
+      {# Product Images #}
+      <div class="product-gallery">
+        {% if product_entity.field_image is defined and product_entity.field_image.value %}
+          <div class="product-images">
+            {% for image in product_entity.field_image %}
+              <div class="product-image-wrapper">
+                <img src="{{ file_url(image.entity.uri.value) }}"
+                     alt="{{ image.alt ?: product_entity.title.value }}"
+                     class="product-image">
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="product-image-placeholder">
+            <div class="placeholder-content">
+              <span class="placeholder-icon">📷</span>
+              <p>No image available</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {# Product Details #}
+      <div class="product-details">
+
+        {# Product Price #}
+        {% if product_entity.field_price is defined and product_entity.field_price.value %}
+          <div class="product-price-section">
+            <div class="price-label">Price</div>
+            <div class="product-prices">
+              {% for price in product_entity.field_price %}
+                <div class="price-item">
+                  <span class="price-symbol">
+                    {% if price.currency_code == 'USD' %}$
+                    {% elseif price.currency_code == 'EUR' %}€
+                    {% elseif price.currency_code == 'GBP' %}£
+                    {% elseif price.currency_code == 'INR' %}₹
+                    {% elseif price.currency_code == 'JPY' %}¥
+                    {% elseif price.currency_code == 'AUD' %}A$
+                    {% elseif price.currency_code == 'CAD' %}C$
+                    {% elseif price.currency_code == 'CHF' %}CHF
+                    {% else %}{{ price.currency_code }}
+                    {% endif %}
+                  </span>
+                  <span class="price-amount">{{ price.number }}</span>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {# Product Description #}
+        {% if product_entity.body is defined and product_entity.body.value %}
+          <div class="product-description">
+            <h3>Description</h3>
+            <div class="description-content">
+              {{ product_entity.body.value|raw }}
+            </div>
+          </div>
+        {% endif %}
+
+        {# Download Files #}
+        {% if product_entity.field_download_file is defined and product_entity.field_download_file.value %}
+          <div class="product-downloads">
+            <h3>Downloads</h3>
+            <div class="download-links">
+              {% for file in product_entity.field_download_file %}
+                <a href="{{ file_url(file.entity.uri.value) }}"
+                   class="download-link"
+                   download>
+                  <span class="download-icon">📥</span>
+                  <span class="download-text">{{ file.entity.filename.value }}</span>
+                  <span class="download-size">({{ file.entity.filesize.value|number_format(0, '.', ',') }} bytes)</span>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {# Add to Cart Form - Fixed #}
+        <div class="product-purchase">
+          {% if product_entity.variations %}
+            {% for variation in product_entity.variations %}
+              <div class="variation-item">
+                <form action="/commerce/cart/add" method="post" class="commerce-add-to-cart-form">
+                  <input type="hidden" name="product_id" value="{{ product_entity.product_id.value }}">
+                  <input type="hidden" name="variation_id" value="{{ variation.variation_id.value }}">
+
+                  <div class="quantity-selector">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="99">
+                  </div>
+
+                  <button type="submit" class="add-to-cart-btn">
+                    <span class="btn-icon">🛒</span>
+                    <span class="btn-text">Add to Cart</span>
+                  </button>
+                </form>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="no-variations">
+              <p>This product is not available for purchase.</p>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
