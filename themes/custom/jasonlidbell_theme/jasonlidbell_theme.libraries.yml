@@ -1,0 +1,26 @@
+global-styling:
+  version: 7.x
+  css:
+    theme:
+      css/base.css: {}
+      css/forms.css: { weight: 5 }
+      css/sidebar.css: {}
+      css/slider.css: {}
+      css/gallery.css: {}
+      css/category-fullscreen.css: { weight: 110 }
+      css/category-gallery.css: { weight: 115 }
+      css/content-pages.css: { weight: 120 }
+      css/blog.css: { weight: 125 }
+      css/blog-detail.css: { weight: 130 }
+      css/testimonials.css: { weight: 135 }
+      css/testimonials-slider.css: { weight: 136 }
+      css/discreet-service-style.css: { weight: 140 }
+  js:
+    js/sidebar.js: {}
+    js/slider.js: {}
+    js/testimonials-slider.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/once

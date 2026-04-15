@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Theme template for Contact page
+ * 
+ * To use this template:
+ * 1. Create a page in Drupal with URL alias: /contact
+ * 2. This template will automatically be used
+ */
+#}
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="container">
+  {{ page.sidebar_first }}
+  
+  <div class="content-page-container">
+    {% if page.content %}
+      <main role="main" class="content-page-main">
+        <div class="content-page-wrapper">
+          {{ page.content }}
+        </div>
+      </main>
+    {% endif %}
+  </div>
+</div>

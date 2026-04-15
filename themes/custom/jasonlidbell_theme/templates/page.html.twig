@@ -1,0 +1,57 @@
+{#
+/**
+ * @file
+ * Smart page template that automatically detects page type
+ * 
+ * LOGIC:
+ * - Gallery pages (with field_gallery_images) → Use gallery-container
+ * - Slider pages → Use gallery-container  
+ * - ALL OTHER PAGES (Basic pages, content pages) → Use content-page-container
+ * 
+ * This ensures ANY new page added by client automatically looks professional!
+ */
+#}
+
+{# Detect if this is a gallery page vs regular content page #}
+{% set is_gallery_page = node.field_gallery_images is defined and node.field_gallery_images is not empty %}
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="container">
+  {{ page.sidebar_first }}
+  
+  {# FOR GALLERY PAGES - Use existing gallery container #}
+  {% if is_gallery_page %}
+    <div class="gallery-container">
+      {% if page.header %}
+        <div class="header" style="left: 270px;">
+          {{ page.header }}
+        </div>
+      {% endif %}
+
+      {% if page.content %}
+        <main role="main">
+          {{ page.content }}
+        </main>
+      {% endif %}
+    </div>
+  
+  {# FOR ALL OTHER PAGES - Use new content page styling #}
+  {% else %}
+    <div class="content-page-container">
+      {% if page.header %}
+        <div class="content-page-header">
+          {{ page.header }}
+        </div>
+      {% endif %}
+
+      {% if page.content %}
+        <main role="main" class="content-page-main">
+          <div class="content-page-wrapper">
+            {{ page.content }}
+          </div>
+        </main>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,12 @@
+{#
+/**
+ * @file
+ * Theme override for blog view listing (teaser view).
+ * Creates proper order: Title > Metadata > Excerpt > Tags > Read More
+ */
+#}
+{% for row in rows %}
+  <div class="views-row">
+    {{ row.content }}
+  </div>
+{% endfor %}

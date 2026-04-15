@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Homepage Slider Manager module - Unlimited slides + Hide dots option!
+ */
+
+use Drupal\file\Entity\File;
+
+/**
+ * Implements hook_preprocess_page().
+ * 
+ * Makes slider images available to the front page template.
+ */
+function jl_homepage_slider_preprocess_page(&$variables) {
+  // Only add slider images on the front page
+  $is_front = \Drupal::service('path.matcher')->isFrontPage();
+  
+  if ($is_front) {
+    $config = \Drupal::config('jl_homepage_slider.settings');
+    $slider_images = [];
+    
+    // Get number of slides
+    $num_slides = $config->get('num_slides') ?: 5;
+    
+    // Get all uploaded slider images
+    for ($i = 1; $i <= $num_slides; $i++) {
+      $fid = $config->get("slide_$i");
+      
+      if ($fid) {
+        $file = File::load($fid);
+        
+        if ($file) {
+          $url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+          $slider_images[] = [
+            'url' => $url,
+            'alt' => 'Homepage Slide ' . $i,
+          ];
+        }
+      }
+    }
+    
+    // Pass slider images to the template
+    $variables['slider_images'] = $slider_images;
+    
+    // Pass hide dots setting
+    $variables['hide_slider_dots'] = $config->get('hide_dots') ?: 0;
+  }
+}

@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Theme template for Blog listing page
+ * 
+ * Displays blog posts in 2-column grid with pagination
+ */
+#}
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="container">
+  {{ page.sidebar_first }}
+  
+  <div class="content-page-container blog-listing-container">
+    {% if page.header %}
+      <div class="content-page-header">
+        {{ page.header }}
+      </div>
+    {% endif %}
+
+    {% if page.content %}
+      <main role="main" class="blog-listing-main">
+        <div class="blog-listing-wrapper">
+          <h1 class="blog-listing-title">Blog</h1>
+          {{ page.content }}
+        </div>
+      </main>
+    {% endif %}
+  </div>
+</div>

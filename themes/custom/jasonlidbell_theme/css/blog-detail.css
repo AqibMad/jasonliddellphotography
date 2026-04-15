@@ -1,0 +1,74 @@
+/* ========================================
+   BLOG DETAIL PAGE FIX
+   Surgical, non-conflicting changes only
+   ======================================== */
+
+/* Make content wrapper wider - only for non-blog-listing pages */
+body:not(.path-blog) .content-page-wrapper {
+    max-width: 1400px !important;
+}
+
+/* Show the title in header that content-pages.css hides */
+body:not(.path-blog) .content-page-header #block-jasonlidbell-theme-page-title {
+    display: block !important;
+}
+
+/* Style the title beautifully */
+body:not(.path-blog) .content-page-header #block-jasonlidbell-theme-page-title h1 {
+    font-family: 'Brush Script MT', cursive !important;
+    font-size: 3.5rem !important;
+    color: #fff !important;
+    font-style: italic !important;
+    text-align: center !important;
+    margin: 0 0 30px 0 !important;
+    font-weight: 400 !important;
+    letter-spacing: 1px !important;
+}
+
+/* Hide the duplicate h2 in content */
+body:not(.path-blog) .content-page-wrapper article > div h2:first-child {
+    display: none !important;
+}
+
+/* Better padding */
+body:not(.path-blog) .content-page-main {
+    padding: 50px 70px !important;
+}
+
+/* Style submission info */
+body:not(.path-blog) article footer {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+    body:not(.path-blog) .content-page-wrapper {
+        max-width: 1100px !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    body:not(.path-blog) .content-page-wrapper {
+        max-width: 900px !important;
+    }
+    body:not(.path-blog) .content-page-main {
+        padding: 40px 50px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body:not(.path-blog) .content-page-wrapper {
+        max-width: 100% !important;
+    }
+    body:not(.path-blog) .content-page-main {
+        padding: 30px 25px !important;
+    }
+    body:not(.path-blog) .content-page-header #block-jasonlidbell-theme-page-title h1 {
+        font-size: 2.2rem !important;
+    }
+}

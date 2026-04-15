@@ -1,0 +1,71 @@
+<?php
+
+use Drupal\node\NodeInterface;
+use Drupal\file\Entity\File;
+
+function jasonlidbell_theme_preprocess_html(&$variables) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  $path_class = 'path-' . str_replace('/', '-', trim($path_alias, '/'));
+  $variables['attributes']['class'][] = $path_class;
+  
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof NodeInterface && $node->getType() == 'category_gallery') {
+    $variables['attributes']['class'][] = 'page-category-gallery';
+  }
+}
+
+function jasonlidbell_theme_preprocess_page(&$variables) {
+  $variables['theme_path'] = \Drupal::service('extension.list.theme')->getPath('jasonlidbell_theme');
+  $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+  
+  $node = \Drupal::routeMatch()->getParameter('node');
+  
+  if ($node instanceof NodeInterface) {
+    $variables['node'] = $node;
+    $variables['node_type'] = $node->getType();
+    
+    // Process Category Gallery content type
+    if ($node->getType() == 'category_gallery') {
+      
+      // Remove all regions except sidebar
+      $sidebar = $variables['page']['sidebar_first'] ?? NULL;
+      $variables['page'] = [];
+      if ($sidebar) {
+        $variables['page']['sidebar_first'] = $sidebar;
+      }
+      
+      // Get slider images from the IMAGE field (not media reference)
+      $slider_images = [];
+      
+      if ($node->hasField('field_slider_images') && !$node->get('field_slider_images')->isEmpty()) {
+        
+        // Loop through each image
+        foreach ($node->get('field_slider_images') as $image_item) {
+          $file = File::load($image_item->target_id);
+          
+          if ($file) {
+            $slider_images[] = [
+              'url' => \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri()),
+              'alt' => $image_item->alt ?: $node->getTitle(),
+            ];
+          }
+        }
+      }
+      
+      $variables['category_slider_images'] = $slider_images;
+      $variables['is_category_page'] = TRUE;
+    }
+  }
+}
+
+function jasonlidbell_theme_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  
+  if ($node instanceof NodeInterface) {
+    if ($node->getType() == 'category_gallery') {
+      $suggestions[] = 'page__category_gallery';
+      $suggestions[] = 'page__node__' . $node->id();
+    }
+  }
+}

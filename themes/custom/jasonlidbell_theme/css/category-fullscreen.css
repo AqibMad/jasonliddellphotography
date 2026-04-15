@@ -1,0 +1,102 @@
+/* FULL-SCREEN SLIDER FOR CATEGORY PAGES - Like Homepage */
+
+/* Category pages list */
+body.path-aerial-landscapes,
+body.path-dance,
+body.path-4wds,
+body.path-boudoir,
+body.path-pole-aerials,
+body.path-fine-art-nudes,
+body.path-product-photography,
+body.path-food-photography,
+body.path-pin-up,
+body.path-weddings,
+body.path-clients,
+body.path-buy-prints,
+body.path-discreet-service,
+body.path-pregnancy {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Full-screen slider */
+.path-aerial-landscapes .slider-container,
+.path-dance .slider-container,
+.path-4wds .slider-container,
+.path-boudoir .slider-container,
+.path-pole-aerials .slider-container,
+.path-fine-art-nudes .slider-container,
+.path-product-photography .slider-container,
+.path-food-photography .slider-container,
+.path-pin-up .slider-container,
+.path-weddings .slider-container,
+.path-clients .slider-container,
+.path-buy-prints .slider-container,
+.path-discreet-service .slider-container,
+.path-pregnancy .slider-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1 !important;
+}
+
+/* Hide navigation dots on category pages */
+.path-aerial-landscapes .slider-dots,
+.path-dance .slider-dots,
+.path-4wds .slider-dots,
+.path-boudoir .slider-dots,
+.path-pole-aerials .slider-dots,
+.path-fine-art-nudes .slider-dots,
+.path-product-photography .slider-dots,
+.path-food-photography .slider-dots,
+.path-pin-up .slider-dots,
+.path-weddings .slider-dots,
+.path-clients .slider-dots,
+.path-buy-prints .slider-dots,
+.path-discreet-service .slider-dots,
+.path-pregnancy .slider-dots {
+  display: none !important;
+}
+
+/* Sidebar stays on top */
+.path-aerial-landscapes .sidebar,
+.path-dance .sidebar,
+.path-4wds .sidebar,
+.path-boudoir .sidebar,
+.path-pole-aerials .sidebar,
+.path-fine-art-nudes .sidebar,
+.path-product-photography .sidebar,
+.path-food-photography .sidebar,
+.path-pin-up .sidebar,
+.path-weddings .sidebar,
+.path-clients .sidebar,
+.path-buy-prints .sidebar,
+.path-discreet-service .sidebar,
+.path-pregnancy .sidebar {
+  z-index: 1000 !important;
+  position: fixed !important;
+}
+
+/* Container full width */
+.path-aerial-landscapes .container,
+.path-dance .container,
+.path-4wds .container,
+.path-boudoir .container,
+.path-pole-aerials .container,
+.path-fine-art-nudes .container,
+.path-product-photography .container,
+.path-food-photography .container,
+.path-pin-up .container,
+.path-weddings .container,
+.path-clients .container,
+.path-buy-prints .container,
+.path-discreet-service .container,
+.path-pregnancy .container {
+  width: 100% !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Theme override for blog nodes in teaser view mode.
+ * Simple: Title > Paragraph > Read More
+ */
+#}
+<article{{ attributes.addClass('blog-teaser') }}>
+
+  {# 1. TITLE #}
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes }}>
+      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+
+  {# 2. PARAGRAPH/EXCERPT #}
+  <div class="blog-excerpt">
+    {{ content.body }}
+  </div>
+
+  {# 3. READ MORE BUTTON #}
+  <div class="blog-read-more">
+    <a href="{{ url }}" class="read-more-link">Read more</a>
+  </div>
+
+</article>

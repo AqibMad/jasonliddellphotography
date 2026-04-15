@@ -1,0 +1,587 @@
+/**
+ * Testimonials Slider Styling - FIXED FOR DRUPAL
+ * Updated to work with Drupal's actual HTML structure
+ */
+
+/* ===========================
+   MAIN CONTAINER
+   =========================== */
+
+/*
+ * The page template already provides the large rounded panel.
+ * Keep the view wrapper neutral so it doesn't fight the layout.
+ */
+.view-testimonials {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    background: transparent;
+    min-height: 0;
+}
+
+/* Hide Drupal's default view header */
+.view-testimonials .view-header {
+    display: none;
+}
+
+/* Page title - TESTIMONIALS */
+.page-title {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 80px;
+    color: #000;
+    text-transform: uppercase;
+}
+
+/* ===========================
+   SLIDER CONTAINER
+   =========================== */
+
+/*
+ * Slider wrapper
+ * Matches the Figma layout: large rounded light panel with content inside.
+ */
+.testimonials-slider {
+    position: relative !important;
+    width: 100%;
+    min-height: 640px;
+    background: #f5f3f0;
+    border-radius: 28px;
+    overflow: visible !important;
+    padding: 40px; /* Reduced from 40px 80px 60px - balanced padding */
+}
+
+/* Individual slide (we fade between slides via JS) */
+.testimonial-slide {
+    display: none !important;
+    opacity: 0;
+    position: relative !important;
+    width: 100%;
+    padding: 0;
+}
+
+/* Active slide */
+.testimonial-slide.active {
+    display: block !important;
+    opacity: 1 !important;
+    position: relative !important;
+    animation: fadeInSlide 0.6s ease-in-out;
+}
+
+/* Fallback: Show first slide if JavaScript fails */
+.testimonial-slide:first-child {
+    display: block !important;
+}
+
+.testimonial-slide:first-child ~ .testimonial-slide {
+    display: none !important;
+}
+
+.testimonial-slide.active ~ .testimonial-slide {
+    display: none !important;
+}
+
+.testimonial-slide-inner {
+    height: 100%;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@keyframes fadeInSlide {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+/* ===========================
+   TESTIMONIAL ITEM LAYOUT
+   =========================== */
+
+.testimonial-item {
+    height: 100%;
+    display: grid !important;
+    grid-template-columns: 38% 1fr;
+    gap: 60px;
+    align-items: start;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* ===========================
+   CLIENT PHOTO (LEFT SIDE)
+   =========================== */
+
+/* Left image panel */
+.slide-image {
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    height: 100%;
+    display: flex !important;
+    align-items: center;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.slide-image img {
+    width: 100%;
+    height: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* ===========================
+   TEXT CONTENT (RIGHT SIDE)
+   =========================== */
+
+/* Right text panel */
+.slide-text {
+    height: 100%;
+    display: flex !important;
+    flex-direction: column;
+    padding-top: 10px;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Client name */
+/* Title */
+.testimonial-title {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 0 0 18px;
+    color: #000;
+    text-transform: uppercase;
+}
+
+/* Author */
+.testimonial-author {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 18px;
+    color: #000;
+}
+
+/* Testimonial text */
+/* Scrollable body (prevents long text from overflowing the container) */
+.testimonial-body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #222;
+    margin-top: 8px;
+    padding-right: 12px; /* room for scrollbar */
+    max-height: 360px;
+    overflow: auto;
+}
+
+.testimonial-body p {
+    margin: 0 0 14px;
+}
+
+/* Nicer scrollbar (WebKit) */
+.testimonial-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.testimonial-body::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.06);
+    border-radius: 10px;
+}
+
+.testimonial-body::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+}
+
+/* ===========================
+   COUNTER (1/1, 2/5, etc.)
+   =========================== */
+
+/* Counter removed (requested) */
+.testimonial-counter { display: none !important; }
+
+/* ===========================
+   IN-SLIDER NAV BUTTONS
+   =========================== */
+
+/* In-slider nav arrows removed (requested) */
+.testimonial-nav,
+.testimonial-nav--prev,
+.testimonial-nav--next {
+    display: none !important;
+}
+
+.testimonial-counter .current {
+    font-size: 18px;
+}
+
+.testimonial-counter .total {
+    opacity: 0.8;
+}
+
+/* ===========================
+   NAVIGATION ARROWS
+   =========================== */
+
+/* Drupal view pager removed (requested) */
+.view-testimonials .pager,
+.view-testimonials .item-list .pager,
+.view-testimonials .pager__items,
+.view-testimonials .pager__item {
+    display: none !important;
+}
+
+/* ===========================
+   MOBILE RESPONSIVE (fix narrow strip issue)
+   =========================== */
+
+@media (max-width: 768px) {
+    .view-testimonials {
+        max-width: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .testimonials-slider {
+        min-height: 0;
+        padding: 18px 16px 22px;
+        border-radius: 22px;
+    }
+
+    .testimonial-item {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .slide-image {
+        padding: 14px;
+    }
+
+    .slide-image img {
+        max-height: 420px;
+    }
+
+    .testimonial-title {
+        font-size: clamp(28px, 7vw, 44px);
+        line-height: 1.05;
+    }
+
+    .testimonial-body {
+        max-height: 240px;
+    }
+}
+
+.view-testimonials .pager__items {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
+@media (max-width: 1100px) {
+    .testimonials-slider,
+    .testimonial-slide {
+        padding: 30px; /* Reduced and balanced */
+    }
+    .testimonial-item {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 900px) {
+    .testimonial-item {
+        grid-template-columns: 1fr;
+    }
+    .slide-image img {
+        max-height: 420px;
+    }
+    .testimonial-body {
+        max-height: 260px;
+    }
+    .testimonial-nav {
+        width: 48px;
+        height: 48px;
+    }
+    .testimonial-nav span {
+        font-size: 28px;
+    }
+}
+
+.view-testimonials .pager__item {
+    list-style: none;
+    margin: 0;
+}
+
+.view-testimonials .pager__item a,
+.view-testimonials .pager__item.is-active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    background: #9a8a6f;
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(154, 138, 111, 0.3);
+}
+
+.view-testimonials .pager__item a:hover {
+    background: #8a7a5f;
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(154, 138, 111, 0.4);
+}
+
+.view-testimonials .pager__item a:active {
+    transform: scale(0.95);
+}
+
+/* Arrow symbols */
+.view-testimonials .pager__item--previous a::before {
+    content: "‹";
+    font-size: 32px;
+    line-height: 1;
+}
+
+.view-testimonials .pager__item--next a::before {
+    content: "›";
+    font-size: 32px;
+    line-height: 1;
+}
+
+/* ===========================
+   DRUPAL VIEW STRUCTURE FIXES
+   =========================== */
+
+/* Fix Drupal's view content wrapper */
+.view-testimonials .view-content {
+    position: relative;
+    width: 100%;
+}
+
+/* Hide empty pager message */
+.view-testimonials .pager__item.is-active.pager__item--first,
+.view-testimonials .pager__item.is-active.pager__item--last {
+    display: none;
+}
+
+/* ===========================
+   LOADING STATE
+   =========================== */
+
+.testimonials-slider.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* ===========================
+   DEBUGGING - Remove after testing
+   =========================== */
+
+/* Uncomment to see slide boundaries */
+/*
+.testimonial-slide {
+    border: 2px solid red !important;
+    min-height: 400px;
+}
+
+.testimonial-slide.active {
+    border: 2px solid green !important;
+}
+*/
+
+/* ===========================
+   RESPONSIVE DESIGN
+   =========================== */
+
+/* Large tablets and small desktops */
+@media (max-width: 1200px) {
+    .view-testimonials {
+        padding: 50px 30px;
+    }
+    
+    .testimonial-slide-inner {
+        padding: 50px;
+    }
+    
+    .testimonial-item {
+        gap: 50px;
+    }
+    
+    .testimonial-photo {
+        flex: 0 0 350px;
+        max-width: 350px;
+    }
+    
+    .testimonial-content {
+        padding: 20px 30px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .view-testimonials {
+        padding: 40px 20px;
+    }
+    
+    .page-title {
+        font-size: 40px;
+        margin-bottom: 60px;
+    }
+    
+    .testimonial-slide-inner {
+        padding: 40px;
+    }
+    
+    .testimonial-item {
+        gap: 40px;
+    }
+    
+    .testimonial-photo {
+        flex: 0 0 300px;
+        max-width: 300px;
+    }
+    
+    .testimonial-name,
+    .testimonial-name .field--name-field-client-name {
+        font-size: 24px;
+    }
+    
+    .testimonial-text,
+    .testimonial-text .field--name-field-testimonial-text {
+        font-size: 16px;
+    }
+}
+
+/* Mobile landscape and small tablets */
+@media (max-width: 768px) {
+    .testimonial-item {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .testimonial-slide-inner {
+        padding: 30px;
+    }
+    
+    .testimonial-photo {
+        flex: 0 0 auto;
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .testimonial-photo img,
+    .testimonial-photo .field--name-field-client-photo img {
+        max-height: 400px;
+    }
+    
+    .testimonial-content {
+        padding: 20px 0;
+        text-align: center;
+    }
+    
+    .testimonial-name::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .page-title {
+        font-size: 36px;
+        margin-bottom: 40px;
+    }
+    
+    .view-testimonials .pager,
+    .view-testimonials .item-list .pager {
+        margin-top: 40px;
+    }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+    .view-testimonials {
+        padding: 30px 15px;
+    }
+    
+    .page-title {
+        font-size: 28px;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+    }
+    
+    .testimonial-slide-inner {
+        padding: 20px;
+    }
+    
+    .testimonial-item {
+        gap: 20px;
+    }
+    
+    .testimonial-name,
+    .testimonial-name .field--name-field-client-name {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .testimonial-text,
+    .testimonial-text .field--name-field-testimonial-text {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    
+    .view-testimonials .pager__item a {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .testimonial-counter {
+        font-size: 13px;
+        padding: 8px 20px;
+    }
+}
+
+
+
+/* ===== V5 overrides ===== */
+/* Remove arrows and pagination as requested */
+.testimonials-slider .testimonial-nav,
+.testimonials-slider .testimonial-nav--prev,
+.testimonials-slider .testimonial-nav--next,
+.testimonials-slider .testimonial-counter {
+  display: none !important;
+}
+
+/* Ensure slides don't create extra vertical spacing */
+.testimonials-slider .testimonial-slide {
+  padding-top: 0 !important;
+}
+
+/* Keep long text inside container with scroll */
+.testimonials-slider .testimonial-body {
+  max-height: 420px;
+  overflow: auto;
+  padding-right: 12px;
+}

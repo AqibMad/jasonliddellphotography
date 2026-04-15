@@ -1,0 +1,6 @@
+jl_homepage_slider.admin:
+  title: 'Homepage Slider Images'
+  description: 'Upload and manage unlimited homepage slider images + hide navigation dots'
+  route_name: jl_homepage_slider.settings
+  parent: system.admin_config_media
+  weight: 10

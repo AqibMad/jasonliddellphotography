@@ -1,0 +1,38 @@
+/* Slider full-screen fix for category pages */
+
+/* Make slider full-screen on category pages */
+.path-aerial-landscapes .slider-container,
+.path-dance .slider-container,
+.path-4wds .slider-container,
+.path-boudoir .slider-container,
+.path-pole-aerials .slider-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 1 !important;
+}
+
+/* Ensure sidebar stays on top */
+.path-aerial-landscapes .sidebar,
+.path-dance .sidebar,
+.path-4wds .sidebar,
+.path-boudoir .sidebar,
+.path-pole-aerials .sidebar {
+    z-index: 1000 !important;
+}
+
+/* Ensure container doesn't restrict slider */
+.path-aerial-landscapes .container,
+.path-dance .container,
+.path-4wds .container,
+.path-boudoir .container,
+.path-pole-aerials .container {
+    width: 100% !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}

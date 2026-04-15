@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Theme template for Discreet Service page (alternative naming)
+ * 
+ * This handles URLs like /discreet-service (with hyphen)
+ */
+#}
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="container">
+  {{ page.sidebar_first }}
+  
+  <div class="content-page-container">
+    {% if page.content %}
+      <main role="main" class="content-page-main">
+        <div class="content-page-wrapper discreet-service-page">
+          {{ page.content }}
+        </div>
+      </main>
+    {% endif %}
+  </div>
+</div>

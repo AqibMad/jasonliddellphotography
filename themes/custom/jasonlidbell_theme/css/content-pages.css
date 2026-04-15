@@ -1,0 +1,488 @@
+/* Content Page Styling */
+.content-page-container {
+    margin-left: 310px; /* Sidebar width (270px) + margin (40px) */
+    margin-right: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    min-height: calc(100vh - 80px);
+    max-height: calc(100vh - 80px); /* Constrain height to viewport */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    background: transparent;
+    /* Custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 148, 105, 0.5) rgba(255, 255, 255, 0.05);
+}
+
+/* Webkit scrollbar styling for content pages */
+.content-page-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content-page-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.content-page-container::-webkit-scrollbar-thumb {
+    background: rgba(168, 148, 105, 0.5);
+    border-radius: 4px;
+}
+
+.content-page-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 148, 105, 0.8);
+}
+
+.content-page-header {
+    margin-bottom: 30px;
+}
+
+/* Hide admin elements from regular page view */
+.content-page-header .contextual,
+.content-page-header .trigger,
+.content-page-wrapper .contextual,
+.content-page-wrapper .trigger {
+    display: none !important;
+}
+
+/* Hide search blocks, breadcrumbs, and admin menus from content pages */
+.content-page-header .search-block-form,
+.content-page-header #block-jasonlidbell-theme-breadcrumbs,
+.content-page-header #block-jasonlidbell-theme-primary-local-tasks,
+.content-page-header #block-jasonlidbell-theme-account-menu,
+.content-page-header #block-jasonlidbell-theme-main-menu,
+.content-page-header #block-jasonlidbell-theme-powered,
+.content-page-header #block-jasonlidbell-theme-syndicate,
+.content-page-header #block-jasonlidbell-theme-site-branding {
+    display: none !important;
+}
+
+/* Show only the page title in header */
+.content-page-header #block-jasonlidbell-theme-page-title {
+    display: none; /* We'll show the title inside the content instead */
+}
+
+.content-page-main {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    padding: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 40px; /* Add space at bottom for better scrolling */
+}
+
+.content-page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    color: #fff;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.8;
+}
+
+/* Page Title Styling */
+.content-page-wrapper h1 {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 3rem;
+    color: #fff;
+    font-style: italic;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+/* Subtitle or Lead Text */
+.content-page-wrapper .lead-text,
+.content-page-wrapper p:first-of-type {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 25px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Regular Headings */
+.content-page-wrapper h2 {
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    color: rgb(168, 148, 105);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    border-bottom: 2px solid rgba(168, 148, 105, 0.3);
+    padding-bottom: 10px;
+}
+
+.content-page-wrapper h3 {
+    font-family: 'Georgia', serif;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.content-page-wrapper h4 {
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-weight: 400;
+}
+
+/* Paragraph Styling */
+.content-page-wrapper p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Links */
+.content-page-wrapper a {
+    color: rgb(168, 148, 105);
+    text-decoration: none;
+    transition: all 0.3s;
+    border-bottom: 1px solid transparent;
+}
+
+.content-page-wrapper a:hover {
+    color: rgba(100, 180, 230, 1);
+    border-bottom-color: rgba(100, 180, 230, 0.5);
+}
+
+/* Lists */
+.content-page-wrapper ul,
+.content-page-wrapper ol {
+    margin-left: 30px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.content-page-wrapper li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* Blockquotes */
+.content-page-wrapper blockquote {
+    border-left: 4px solid rgba(168, 148, 105, 0.5);
+    padding-left: 30px;
+    margin: 30px 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+}
+
+/* Images in Content */
+.content-page-wrapper img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 30px 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+.content-page-wrapper img.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Divider */
+.content-page-wrapper hr {
+    border: none;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    margin: 40px 0;
+}
+
+/* Content Page Footer */
+.content-page-footer {
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+/* Contact Form Styling (if applicable) */
+.content-page-wrapper form {
+    margin-top: 30px;
+}
+
+.content-page-wrapper .form-item {
+    margin-bottom: 20px;
+}
+
+.content-page-wrapper label {
+    display: block;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.content-page-wrapper input[type="text"],
+.content-page-wrapper input[type="email"],
+.content-page-wrapper input[type="tel"],
+.content-page-wrapper textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.content-page-wrapper input[type="text"]:focus,
+.content-page-wrapper input[type="email"]:focus,
+.content-page-wrapper input[type="tel"]:focus,
+.content-page-wrapper textarea:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(168, 148, 105, 0.6);
+    outline: none;
+}
+
+.content-page-wrapper textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.content-page-wrapper button[type="submit"],
+.content-page-wrapper input[type="submit"] {
+    background: rgba(168, 148, 105, 0.8);
+    color: #fff;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(168, 148, 105, 0.3);
+}
+
+.content-page-wrapper button[type="submit"]:hover,
+.content-page-wrapper input[type="submit"]:hover {
+    background: rgb(168, 148, 105);
+    box-shadow: 0 8px 20px rgba(168, 148, 105, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Blog-specific styling */
+.content-page-wrapper .blog-post-meta {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 25px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.content-page-wrapper .blog-post-meta span {
+    margin: 0 15px;
+}
+
+.content-page-wrapper .blog-post-tags {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.content-page-wrapper .blog-post-tags a {
+    display: inline-block;
+    background: rgba(75, 150, 200, 0.2);
+    padding: 5px 15px;
+    margin: 5px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(168, 148, 105, 0.3);
+}
+
+.content-page-wrapper .blog-post-tags a:hover {
+    background: rgba(75, 150, 200, 0.4);
+    border-color: rgba(168, 148, 105, 0.6);
+}
+
+/* Tables */
+.content-page-wrapper table {
+    width: 100%;
+    margin: 30px 0;
+    border-collapse: collapse;
+}
+
+.content-page-wrapper th {
+    background: rgba(75, 150, 200, 0.2);
+    padding: 12px;
+    text-align: left;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(168, 148, 105, 0.5);
+}
+
+.content-page-wrapper td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.content-page-wrapper tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .content-page-container {
+        margin-left: 280px;
+        margin-right: 30px;
+        max-height: calc(100vh - 60px);
+    }
+    
+    .content-page-main {
+        padding: 40px 30px;
+    }
+    
+    .content-page-wrapper h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-page-container {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 80px; /* Space for mobile menu button */
+        max-height: calc(100vh - 100px);
+    }
+    
+    .content-page-main {
+        padding: 30px 20px;
+        border-radius: 12px;
+    }
+    
+    .content-page-wrapper h1 {
+        font-size: 2rem;
+        margin-bottom: 25px;
+    }
+    
+    .content-page-wrapper h2 {
+        font-size: 1.5rem;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+    
+    .content-page-wrapper h3 {
+        font-size: 1.3rem;
+    }
+    
+    .content-page-wrapper {
+        max-width: 100%;
+    }
+    
+    .content-page-wrapper p {
+        text-align: left;
+        font-size: 0.95rem;
+    }
+    
+    /* Better list spacing on mobile */
+    .content-page-wrapper ul,
+    .content-page-wrapper ol {
+        margin-left: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .content-page-wrapper li {
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-page-container {
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-top: 75px;
+        max-height: calc(100vh - 85px);
+    }
+    
+    .content-page-main {
+        padding: 25px 18px;
+        border-radius: 10px;
+    }
+    
+    .content-page-wrapper h1 {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+        line-height: 1.3;
+    }
+    
+    .content-page-wrapper h2 {
+        font-size: 1.3rem;
+        margin-top: 25px;
+        margin-bottom: 12px;
+    }
+    
+    .content-page-wrapper h3 {
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+    
+    .content-page-wrapper p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+    
+    /* Smaller scrollbar on mobile */
+    .content-page-container::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    /* Adjust form elements for mobile */
+    .content-page-wrapper input[type="text"],
+    .content-page-wrapper input[type="email"],
+    .content-page-wrapper input[type="tel"],
+    .content-page-wrapper textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 10px 12px;
+    }
+    
+    .content-page-wrapper button[type="submit"],
+    .content-page-wrapper input[type="submit"] {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+    .content-page-container {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .content-page-main {
+        padding: 20px 15px;
+    }
+    
+    .content-page-wrapper h1 {
+        font-size: 1.4rem;
+    }
+    
+    .content-page-wrapper h2 {
+        font-size: 1.2rem;
+    }
+    
+    .content-page-wrapper p,
+    .content-page-wrapper li {
+        font-size: 0.85rem;
+    }
+}

@@ -1,0 +1,7 @@
+jl_homepage_slider.settings:
+  path: '/admin/config/media/homepage-slider'
+  defaults:
+    _form: '\Drupal\jl_homepage_slider\Form\HomepageSliderForm'
+    _title: 'Manage Homepage Slider Images (Unlimited!)'
+  requirements:
+    _permission: 'administer site configuration'

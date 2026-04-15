@@ -1,0 +1,38 @@
+/* Gallery Page - Hide all extra Drupal elements */
+.node--type-gallery {
+  /* This class is added to body on gallery pages */
+}
+
+/* Hide header region completely on gallery pages */
+.path-node.node--type-gallery .header,
+.path-node.node--type-gallery [role="navigation"]:not(.nav-menu),
+.path-node.node--type-gallery #block-jasonlidbell-theme-page-title,
+.path-node.node--type-gallery .search-block-form,
+.path-node.node--type-gallery #block-jasonlidbell-theme-account-menu,
+.path-node.node--type-gallery #block-jasonlidbell-theme-breadcrumbs,
+.path-node.node--type-gallery #block-jasonlidbell-theme-main-menu,
+.path-node.node--type-gallery #block-jasonlidbell-theme-powered,
+.path-node.node--type-gallery #block-jasonlidbell-theme-syndicate,
+.path-node.node--type-gallery #block-jasonlidbell-theme-site-branding,
+.path-node.node--type-gallery .content-title,
+.path-node.node--type-gallery .content-wrapper,
+.path-node.node--type-gallery .hidden-header {
+  display: none !important;
+}
+
+/* Ensure gallery container takes full width */
+.node--type-gallery .gallery-container {
+  margin-left: 0 !important;
+}
+
+/* Ensure slider container is visible and full screen */
+.node--type-gallery .slider-container {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 270px !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: calc(100% - 270px) !important;
+  height: 100vh !important;
+}

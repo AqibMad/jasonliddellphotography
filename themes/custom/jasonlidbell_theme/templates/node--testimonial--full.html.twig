@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Full view mode for testimonial
+ */
+#}
+<div class="testimonial-item">
+  {# Image - Left Side #}
+  <div class="slide-image">
+    {% if content.field_image_testimonials %}
+      {{ content.field_image_testimonials }}
+    {% endif %}
+  </div>
+
+  {# Text - Right Side #}
+  <div class="slide-text">
+    <h1 class="testimonial-title">TESTIMONIALS</h1>
+    
+    {% if label %}
+      <h3 class="testimonial-author">{{ label }}</h3>
+    {% endif %}
+    
+    {% if content.body %}
+      <div class="testimonial-body">
+        {{ content.body }}
+      </div>
+    {% endif %}
+  </div>
+</div>

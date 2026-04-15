@@ -1,0 +1,452 @@
+/**
+ * Custom Form Styling for Jason Liddell Photography
+ * Apply consistent styling to all forms throughout the site
+ * UPDATED: Fixed field visibility and container width
+ */
+
+/* ===========================
+   GENERAL FORM STYLING
+   =========================== */
+
+/* Form wrapper - FULL WIDTH */
+form {
+    width: 100%;
+    max-width: 100%;
+    margin: 20px 0;
+}
+
+/* Form items (field containers) */
+.form-item,
+.js-form-item {
+    margin-bottom: 20px;
+    clear: both;
+}
+
+/* Labels - Make visible */
+form label {
+    display: block !important;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333 !important;
+    font-size: 14px;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Required field indicator */
+.form-required::after {
+    content: " *";
+    color: #c00;
+    font-weight: bold;
+}
+
+/* Text inputs, email, password, etc. - FORCE VISIBILITY */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+input[type="search"],
+input[type="date"],
+select,
+textarea {
+    display: block !important;
+    width: 100% !important;
+    padding: 12px 15px !important;
+    background: #fff !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px;
+    box-sizing: border-box !important;
+    font-size: 14px !important;
+    font-family: Arial, sans-serif !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    min-height: 45px;
+}
+
+/* Focus state for inputs */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    outline: none !important;
+    border-color: #4a9fd8 !important;
+    box-shadow: 0 0 5px rgba(74, 159, 216, 0.5) !important;
+}
+
+/* Placeholder text */
+::placeholder {
+    color: #999 !important;
+    opacity: 1 !important;
+}
+
+/* Textarea specific */
+textarea {
+    min-height: 150px !important;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+/* Select dropdown */
+select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+    padding-right: 35px;
+    appearance: none;
+}
+
+/* ===========================
+   BUTTONS
+   =========================== */
+
+/* Primary buttons (submit) */
+input[type="submit"],
+button[type="submit"],
+.button,
+.form-submit {
+    display: inline-block !important;
+    padding: 12px 30px !important;
+    background: #9a8a6f !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.1s ease;
+    letter-spacing: 0.5px;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover,
+.button:hover,
+.form-submit:hover {
+    background: #8a7a5f !important;
+    transform: translateY(-1px);
+}
+
+input[type="submit"]:active,
+button[type="submit"]:active,
+.button:active,
+.form-submit:active {
+    transform: translateY(0);
+}
+
+/* Primary button variant */
+.button--primary {
+    background: #4a9fd8 !important;
+}
+
+.button--primary:hover {
+    background: #3a8fc8 !important;
+}
+
+/* Secondary buttons (preview, cancel) */
+#edit-preview,
+.button--secondary {
+    background: #888 !important;
+    margin-left: 10px;
+}
+
+#edit-preview:hover,
+.button--secondary:hover {
+    background: #777 !important;
+}
+
+/* Button group */
+.form-actions {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+/* ===========================
+   CHECKBOXES & RADIO BUTTONS
+   =========================== */
+
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto !important;
+    margin-right: 8px;
+    cursor: pointer;
+    display: inline-block !important;
+    min-height: auto !important;
+}
+
+.form-type-checkbox label,
+.form-type-radio label {
+    display: inline !important;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* ===========================
+   FILE UPLOAD
+   =========================== */
+
+input[type="file"] {
+    padding: 8px;
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd !important;
+    cursor: pointer;
+}
+
+/* ===========================
+   ERROR & VALIDATION STATES
+   =========================== */
+
+/* Error messages */
+.form-item .error,
+.form-item--error,
+.messages--error {
+    border-color: #c00 !important;
+}
+
+.error-message,
+.form-item--error-message {
+    color: #c00;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Success messages */
+.messages--status {
+    background: #e8f5e9;
+    border: 1px solid #4caf50;
+    color: #2e7d32;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Warning messages */
+.messages--warning {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Error messages */
+.messages--error {
+    background: #f8d7da;
+    border: 1px solid #c00;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* ===========================
+   CONTACT FORM SPECIFIC
+   =========================== */
+
+/* Contact form wrapper - FULL WIDTH */
+.contact-form-wrapper,
+.contact-message-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 30px 0 !important;
+}
+
+/* About page contact form styling */
+.contact-message-about-page-comments-form {
+    background: transparent !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+.contact-message-about-page-comments-form .form-item {
+    width: 100% !important;
+}
+
+/* Hide duplicate Drupal contact form fields */
+.contact-message-form .form-item-name,
+.contact-message-form .form-item-mail,
+.contact-message-form .form-item-subject-0-value,
+.contact-message-form .form-item-message-0-value,
+.contact-message-form #edit-subject-wrapper,
+.contact-message-form #edit-message-wrapper {
+    display: none !important;
+}
+
+/* Hide text format selector for simple forms */
+.contact-message-form .js-filter-wrapper,
+.contact-message-form .filter-wrapper {
+    display: none !important;
+}
+
+/* ===========================
+   FORCE VISIBILITY FOR ALL FORM ELEMENTS
+   =========================== */
+
+.form-item *,
+.js-form-item *,
+form input,
+form textarea,
+form select,
+form label {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+   =========================== */
+
+@media (max-width: 768px) {
+    form {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 15px;
+    }
+    
+    .contact-form-wrapper {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 15px;
+    }
+    
+    input[type="submit"],
+    button[type="submit"],
+    .button,
+    .form-submit {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    #edit-preview,
+    .button--secondary {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+/* ===========================
+   FORM FIELD DESCRIPTIONS
+   =========================== */
+
+.description,
+.form-item__description {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* ===========================
+   DRUPAL SPECIFIC OVERRIDES
+   =========================== */
+
+/* Remove default Drupal form styling */
+.form-item {
+    margin-top: 0;
+}
+
+/* Details/Fieldset styling */
+details,
+fieldset {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+details summary,
+fieldset legend {
+    font-weight: 600;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+/* Inline form items */
+.container-inline .form-item {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+/* ===========================
+   ACCESSIBILITY IMPROVEMENTS
+   =========================== */
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+    outline: 2px solid #4a9fd8;
+    outline-offset: 2px;
+}
+
+/* Screen reader only text */
+.visually-hidden,
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ===========================
+   FORM SECTION STYLING
+   =========================== */
+
+.form-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+}
+
+.form-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* ===========================
+   ADDITIONAL VISIBILITY FIXES
+   =========================== */
+
+/* Ensure form containers are visible */
+#block-jasonlidbell-theme-content form,
+.region-content form,
+.content-page form {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+/* Ensure input wrappers are visible */
+.field--type-string,
+.field--type-email,
+.field--type-text-long {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}

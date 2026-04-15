@@ -1,0 +1,71 @@
+{#
+/**
+ * @file
+ * Theme override for Blog view
+ * Ensures pagination displays AFTER blog posts
+ */
+#}
+
+{# Display blog posts first #}
+<div{{ attributes.addClass('view-blog') }}>
+  
+  {# Header (if any) #}
+  {% if header %}
+    <div class="view-header">
+      {{ header }}
+    </div>
+  {% endif %}
+
+  {# Blog posts #}
+  {% if rows %}
+    <div class="view-content">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">
+      {{ empty }}
+    </div>
+  {% endif %}
+
+  {# Pagination AFTER posts #}
+  {% if pager %}
+    <div class="view-pager">
+      {{ pager }}
+    </div>
+  {% endif %}
+
+  {# Footer (if any) #}
+  {% if footer %}
+    <div class="view-footer">
+      {{ footer }}
+    </div>
+  {% endif %}
+
+  {# Feed icons #}
+  {% if feed_icons %}
+    <div class="view-feed-icons">
+      {{ feed_icons }}
+    </div>
+  {% endif %}
+
+  {# Exposed filters #}
+  {% if exposed %}
+    <div class="view-filters">
+      {{ exposed }}
+    </div>
+  {% endif %}
+
+  {# Attachment (if any) #}
+  {% if attachment_before %}
+    <div class="view-attachment view-attachment-before">
+      {{ attachment_before }}
+    </div>
+  {% endif %}
+
+  {% if attachment_after %}
+    <div class="view-attachment view-attachment-after">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+
+</div>

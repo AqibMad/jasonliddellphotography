@@ -1,0 +1,51 @@
+{#
+/**
+ * @file
+ * Theme override for gallery/category pages - Clean slider layout like homepage
+ */
+#}
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="container">
+  {{ page.sidebar_first }}
+  
+  <div class="slider-container">
+    <div class="slider" id="slider">
+      {% if gallery_images and gallery_images|length > 0 %}
+        {# Display gallery images as slider #}
+        {% for image in gallery_images %}
+          <div class="slide {{ loop.first ? 'active zooming' : '' }}" style="background-image: url('{{ image.url }}');"></div>
+        {% endfor %}
+      {% elseif node.field_slider_images and node.field_slider_images|length > 0 %}
+        {# Fallback: Check for slider images field #}
+        {% for image in node.field_slider_images %}
+          <div class="slide {{ loop.first ? 'active zooming' : '' }}" style="background-image: url('{{ file_url(image.entity.uri.value) }}');"></div>
+        {% endfor %}
+      {% else %}
+        {# Default placeholder slides #}
+        <div class="slide active zooming" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1920&q=80');"></div>
+      {% endif %}
+    </div>
+
+    <div class="slider-overlay"></div>
+    
+    {# Navigation dots #}
+    <div class="slider-dots" id="sliderDots">
+      {% if gallery_images %}
+        {% set slide_count = gallery_images|length %}
+      {% elseif node.field_slider_images %}
+        {% set slide_count = node.field_slider_images|length %}
+      {% else %}
+        {% set slide_count = 5 %}
+      {% endif %}
+      
+      {% for i in 0..(slide_count - 1) %}
+        <div class="dot {{ i == 0 ? 'active' : '' }}" data-slide="{{ i }}"></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

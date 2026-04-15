@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Theme override to display the front page with dynamic slider.
+ * Now supports UNLIMITED slides and optional hidden navigation dots!
+ */
+#}
+<div class="container">
+  {# Use standard sidebar region - same as all other pages #}
+  {{ page.sidebar_first }}
+
+  {# Slider Section #}
+  <div class="slider-container">
+    <div class="slider" id="slider">
+      {# Slides populated via Drupal admin "Manage Homepage Slider" #}
+      {% if slider_images and slider_images|length > 0 %}
+        {% for image in slider_images %}
+          <div class="slide {{ loop.first ? 'active' : '' }}" style="background-image: url('{{ image.url }}');"></div>
+        {% endfor %}
+      {% else %}
+        {# Default placeholder slides - will be replaced when you upload images in admin #}
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1920&q=80');"></div>
+      {% endif %}
+    </div>
+    
+    <div class="slider-overlay"></div>
+    
+    {# Navigation dots - conditionally shown based on admin setting #}
+    {% if not hide_slider_dots %}
+      <div class="slider-dots" id="sliderDots">
+        {% set slide_count = slider_images|length > 0 ? slider_images|length : 5 %}
+        {% for i in 0..(slide_count - 1) %}
+          <div class="dot {{ i == 0 ? 'active' : '' }}" data-slide="{{ i }}"></div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,223 @@
+/* Basic Content Pages - Clean Beige Design */
+/* Applies to all basic pages (Discreet Service, About, Contact, etc.) */
+
+/* Container gets the beige background and rounded corners */
+.content-page-container {
+    margin-left: 310px;
+    margin-right: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    min-height: calc(100vh - 80px);
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #F5F2EB !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(168, 148, 105) rgba(255, 255, 255, 0.05);
+    border-radius: 20px !important;
+}
+
+/* Hide header completely */
+.content-page-container .content-page-header {
+    margin-bottom: 0 !important;
+    display: none !important;
+}
+
+/* Main content area - NO background, NO border, NO shadow */
+.content-page-container .content-page-main {
+    background: none !important;
+    border-radius: 0 !important;
+    padding: 50px !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    margin-bottom: 40px !important;
+}
+
+/* Content wrapper */
+.content-page-container .content-page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    color: #000 !important;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.8;
+}
+
+/* Page Title - Centered, black text */
+.content-page-container .content-page-wrapper h1,
+.content-page-container .content-page-wrapper h3 strong {
+    font-family: 'Georgia', serif !important;
+    font-size: 2.5rem !important;
+    color: #000 !important;
+    font-weight: 700 !important;
+    margin-bottom: 30px !important;
+    text-align: left !important;
+    letter-spacing: 0 !important;
+}
+
+/* Subtitle text - italic */
+.content-page-container .content-page-wrapper p:first-of-type {
+    font-size: 1.2rem !important;
+    color: #000 !important;
+    margin-bottom: 30px !important;
+    font-style: italic !important;
+    text-align: left !important;
+}
+
+/* Regular headings */
+.content-page-container .content-page-wrapper h2 {
+    font-family: 'Georgia', serif !important;
+    font-size: 2rem !important;
+    color: #000 !important;
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
+    font-weight: 600 !important;
+}
+
+.content-page-container .content-page-wrapper h3 {
+    font-family: 'Georgia', serif !important;
+    font-size: 1.5rem !important;
+    color: #000 !important;
+    margin-top: 30px !important;
+    margin-bottom: 15px !important;
+    font-weight: 600 !important;
+}
+
+/* Paragraphs - dark text */
+.content-page-container .content-page-wrapper p {
+    font-size: 1.05rem !important;
+    color: #333 !important;
+    margin-bottom: 20px !important;
+    text-align: left !important;
+    line-height: 1.8 !important;
+}
+
+/* Strong/bold text */
+.content-page-container .content-page-wrapper strong {
+    color: #000 !important;
+    font-weight: 700 !important;
+}
+
+/* Links */
+.content-page-container .content-page-wrapper a {
+    color: #000 !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid #000 !important;
+    font-weight: 600 !important;
+}
+
+.content-page-container .content-page-wrapper a:hover {
+    color: rgb(168, 148, 105) !important;
+    border-bottom-color: rgb(168, 148, 105) !important;
+}
+
+/* Lists */
+.content-page-container .content-page-wrapper ul,
+.content-page-container .content-page-wrapper ol {
+    color: #333 !important;
+    margin-left: 30px !important;
+    margin-bottom: 20px !important;
+}
+
+.content-page-container .content-page-wrapper li {
+    color: #333 !important;
+    margin-bottom: 10px !important;
+}
+
+/* Blockquotes */
+.content-page-container .content-page-wrapper blockquote {
+    border-left: 4px solid #000 !important;
+    padding-left: 30px !important;
+    margin: 30px 0 !important;
+    font-style: italic !important;
+    color: #333 !important;
+}
+
+/* Dividers */
+.content-page-container .content-page-wrapper hr {
+    border: none !important;
+    border-top: 2px solid rgba(0, 0, 0, 0.2) !important;
+    margin: 40px 0 !important;
+}
+
+/* Custom scrollbar for webkit browsers */
+.content-page-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content-page-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.content-page-container::-webkit-scrollbar-thumb {
+    background: rgb(168, 148, 105);
+    border-radius: 4px;
+}
+
+.content-page-container::-webkit-scrollbar-thumb:hover {
+    background: rgb(148, 128, 85);
+}
+
+/* EXCLUDE blog pages - they should NOT have this styling */
+body.page-blog .content-page-container,
+body.path-blog .content-page-container,
+body[class*="blog"] .content-page-container {
+    background: transparent !important;
+    border-radius: 0 !important;
+}
+
+body.page-blog .content-page-main,
+body.path-blog .content-page-main,
+body[class*="blog"] .content-page-main {
+    background: transparent !important;
+    padding: 50px !important;
+}
+
+body.page-blog .content-page-wrapper,
+body.path-blog .content-page-wrapper,
+body[class*="blog"] .content-page-wrapper {
+    color: #fff !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .content-page-container {
+        margin-left: 280px;
+        margin-right: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-page-container {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 80px;
+        border-radius: 15px !important;
+    }
+    
+    .content-page-main {
+        padding: 30px 20px !important;
+    }
+    
+    .content-page-wrapper h1 {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-page-container {
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-top: 75px;
+        border-radius: 12px !important;
+    }
+    
+    .content-page-main {
+        padding: 25px 18px !important;
+    }
+    
+    .content-page-wrapper h1 {
+        font-size: 1.6rem !important;
+    }
+}

@@ -1,0 +1,13 @@
+{#
+/**
+ * @file
+ * Theme override for image fields.
+ */
+#}
+{% if items %}
+  {% for item in items %}
+    <div{{ item.attributes.addClass('gallery-item-image') }}>
+      {{ item.content }}
+    </div>
+  {% endfor %}
+{% endif %}

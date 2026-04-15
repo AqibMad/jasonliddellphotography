@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Template for Aerial Landscapes page - Clean slider layout
+ * Filename: page--node--1.html.twig (if node ID is 1)
+ * OR use taxonomy/view approach
+ */
+#}
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="container">
+  {{ page.sidebar_first }}
+  
+  <div class="slider-container">
+    <div class="slider" id="slider">
+      <div class="slide active zooming" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=80');"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1920&q=80');"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80');"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1920&q=80');"></div>
+    </div>
+
+    <div class="slider-overlay"></div>
+    
+    <div class="slider-dots" id="sliderDots">
+      <div class="dot active" data-slide="0"></div>
+      <div class="dot" data-slide="1"></div>
+      <div class="dot" data-slide="2"></div>
+      <div class="dot" data-slide="3"></div>
+      <div class="dot" data-slide="4"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+{#
+/**
+ * @file
+ * Theme template for content pages (About, Blog, Contact, Discreet Service)
+ * 
+ * This template provides a clean, professional layout for text-based content pages.
+ * It displays content in the center with proper margins and styling.
+ */
+#}
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<div class="container">
+  {{ page.sidebar_first }}
+  
+  <div class="content-page-container">
+    {% if page.header %}
+      <div class="content-page-header">
+        {{ page.header }}
+      </div>
+    {% endif %}
+
+    {% if page.content %}
+      <main role="main" class="content-page-main">
+        <div class="content-page-wrapper">
+          {{ page.content }}
+        </div>
+      </main>
+    {% endif %}
+    
+    {% if page.footer %}
+      <footer class="content-page-footer">
+        {{ page.footer }}
+      </footer>
+    {% endif %}
+  </div>
+</div>

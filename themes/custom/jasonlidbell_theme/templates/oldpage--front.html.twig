@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Theme override to display the front page.
+ */
+#}
+<div class="container">
+  {# Use standard sidebar region - same as all other pages #}
+  {{ page.sidebar_first }}
+
+  {# Slider Section #}
+  <div class="slider-container">
+    <div class="slider" id="slider">
+      {# Slides will be populated via Drupal admin or custom module #}
+      {% if slider_images %}
+        {% for image in slider_images %}
+          <div class="slide {{ loop.first ? 'active zooming' : '' }}" style="background-image: url('{{ image.url }}');"></div>
+        {% endfor %}
+      {% else %}
+        {# Default placeholder slides #}
+        <div class="slide active zooming" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1920&q=80');"></div>
+      {% endif %}
+    </div>
+    <div class="slider-overlay"></div>
+  </div>
+</div>

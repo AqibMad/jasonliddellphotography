@@ -3,3 +3,8 @@
 # =========================
 /vendor/
 /composer.lock
+
+# =========================
+# Drupal core / scaffold (if web root is project root)
+# =========================
+/core/

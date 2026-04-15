@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Template for testimonial node - Clean structure
+ */
+#}
+<div class="testimonial-item">
+  {# Image - Left Side #}
+  <div class="slide-image">
+    {{ content.field_image_testimonials }}
+  </div>
+
+  {# Text - Right Side #}
+  <div class="slide-text">
+    <h1 class="testimonial-title">TESTIMONIALS</h1>
+    
+    <h3 class="testimonial-author">{{ label }}</h3>
+    
+    <div class="testimonial-body">
+      {{ content.body }}
+    </div>
+  </div>
+</div>

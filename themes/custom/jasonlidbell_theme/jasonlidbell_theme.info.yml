@@ -1,0 +1,19 @@
+name: 'Jason Lidbell Photography'
+type: theme
+description: 'A custom photography portfolio theme for Jason Lidbell Photography website.'
+core_version_requirement: ^10 || ^11
+base theme: false
+
+regions:
+  header: 'Header'
+  sidebar_first: 'Sidebar Navigation'
+  content: 'Main Content'
+  footer: 'Footer'
+
+libraries:
+  - jasonlidbell_theme/global-styling
+  - jasonlidbell_theme/slider
+  - jasonlidbell_theme/gallery
+
+# Theme screenshot
+screenshot: screenshot.png

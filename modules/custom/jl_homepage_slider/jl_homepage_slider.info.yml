@@ -1,0 +1,6 @@
+name: 'Homepage Slider Manager (Unlimited)'
+description: 'Easy slider management - Add UNLIMITED slides and hide navigation dots!'
+type: module
+core_version_requirement: ^9 || ^10 || ^11
+package: 'Jason Lidbell Photography'
+version: '2.0'

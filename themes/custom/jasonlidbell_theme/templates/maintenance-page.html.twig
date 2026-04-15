@@ -1,0 +1,49 @@
+{#
+/**
+ * @file
+ * Theme override to display a maintenance page.
+ */
+#}
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+  <head>
+    <head-placeholder token="{{ placeholder_token }}">
+    <title>{{ head_title|safe_join(' | ') }}</title>
+    <css-placeholder token="{{ placeholder_token }}">
+    <js-placeholder token="{{ placeholder_token }}">
+    <style>
+      body {
+        background: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .maintenance-wrapper {
+        text-align: center;
+        max-width: 600px;
+        padding: 40px;
+      }
+      .maintenance-title {
+        font-family: 'Brush Script MT', cursive;
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+      .maintenance-message {
+        font-size: 1.2rem;
+        line-height: 1.8;
+      }
+    </style>
+  </head>
+  <body{{ attributes }}>
+    <div class="maintenance-wrapper">
+      <h1 class="maintenance-title">{{ site_name }}</h1>
+      <div class="maintenance-message">
+        {{ page.content }}
+      </div>
+    </div>
+  </body>
+</html>

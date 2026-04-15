@@ -1,0 +1,62 @@
+/* Hide Drupal blocks on specific gallery/category pages */
+
+/* Target by URL path */
+.path-aerial-landscapes .header,
+.path-dance .header,
+.path-4wds .header,
+.path-boudoir .header,
+.path-pole-aerials .header,
+.path-fine-art-nudes .header,
+.path-product-photography .header,
+.path-food-photography .header,
+.path-pin-up .header,
+.path-weddings .header,
+.path-clients .header,
+.path-buy-prints .header,
+.path-discreet-service .header,
+.path-pregnancy .header {
+  display: none !important;
+}
+
+/* Hide content wrapper on these pages */
+.path-aerial-landscapes .gallery-container,
+.path-dance .gallery-container,
+.path-4wds .gallery-container,
+.path-boudoir .gallery-container,
+.path-pole-aerials .gallery-container,
+.path-fine-art-nudes .gallery-container,
+.path-product-photography .gallery-container,
+.path-food-photography .gallery-container,
+.path-pin-up .gallery-container,
+.path-weddings .gallery-container,
+.path-clients .gallery-container,
+.path-buy-prints .gallery-container,
+.path-discreet-service .gallery-container,
+.path-pregnancy .gallery-container {
+  display: none !important;
+}
+
+/* Show slider container on these pages */
+.path-aerial-landscapes .slider-container,
+.path-dance .slider-container,
+.path-4wds .slider-container,
+.path-boudoir .slider-container,
+.path-pole-aerials .slider-container,
+.path-fine-art-nudes .slider-container,
+.path-product-photography .slider-container,
+.path-food-photography .slider-container,
+.path-pin-up .slider-container,
+.path-weddings .slider-container,
+.path-clients .slider-container,
+.path-buy-prints .slider-container,
+.path-discreet-service .slider-container,
+.path-pregnancy .slider-container {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 270px !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: calc(100% - 270px) !important;
+  height: 100vh !important;
+}

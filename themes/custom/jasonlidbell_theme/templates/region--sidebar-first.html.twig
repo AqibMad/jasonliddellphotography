@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Theme override for a sidebar region.
+ * Same behavior on all pages - click logo to toggle menu.
+ */
+#}
+{% if content %}
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header" onclick="toggleMenu()">
+      <img src="{{ directory }}/themes/custom/jasonlidbell_theme/images/logo.png" alt="Jason Lidbell Photography">
+    </div>
+    
+    <nav class="nav-menu" id="navMenu">
+      {{ content }}
+    </nav>
+  </div>
+{% endif %}

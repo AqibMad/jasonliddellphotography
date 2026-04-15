@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Theme override for testimonial nodes in the view.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}.
+ */
+#}
+<div class="testimonial-item">
+  <div class="testimonial-photo">
+    {{ content.field_client_photo }}
+  </div>
+  <div class="testimonial-content">
+    <div class="testimonial-name">
+      {{ content.field_client_name }}
+    </div>
+    <div class="testimonial-text">
+      {{ content.field_testimonial_text }}
+    </div>
+  </div>
+</div>

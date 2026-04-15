@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Theme override to display a gallery node.
+ */
+#}
+<article{{ attributes.addClass('node', 'node--type-' ~ node.bundle|clean_class) }}>
+
+  {% if node.field_gallery_title %}
+    <h1 class="page-title">{{ node.field_gallery_title.value }}</h1>
+  {% else %}
+    <h1 class="page-title">{{ label }}</h1>
+  {% endif %}
+
+  <div class="gallery-grid">
+    {% if node.field_gallery_images %}
+      {% for image in node.field_gallery_images %}
+        <div class="gallery-item">
+          {{ image }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+</article>

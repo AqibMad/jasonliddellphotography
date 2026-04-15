@@ -1,0 +1,11 @@
+{#
+/**
+ * @file
+ * Theme override for sidebar region on front page.
+ * This template outputs only the menu content without sidebar wrapper
+ * because page--front.html.twig already creates the sidebar structure.
+ */
+#}
+{% if content %}
+  {{ content }}
+{% endif %}

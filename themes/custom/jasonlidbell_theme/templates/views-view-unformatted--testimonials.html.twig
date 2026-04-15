@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Theme override for the testimonials view (unformatted list).
+ *
+ * Available variables:
+ * - rows: A list of the view's row items.
+ */
+#}
+<div class="testimonials-slider">
+  <button class="testimonial-nav testimonial-nav--prev" type="button" aria-label="Previous testimonial">
+    <span aria-hidden="true">‹</span>
+  </button>
+
+  {% for row in rows %}
+    <div class="testimonial-slide{{ loop.first ? ' active' : '' }}" data-slide="{{ loop.index0 }}">
+      <div class="testimonial-slide-inner">
+        {{ row.content }}
+      </div>
+    </div>
+  {% endfor %}
+
+  <button class="testimonial-nav testimonial-nav--next" type="button" aria-label="Next testimonial">
+    <span aria-hidden="true">›</span>
+  </button>
+  
+  <div class="testimonial-counter">
+    <span class="current">1</span> / <span class="total">{{ rows|length }}</span>
+  </div>
+</div>
