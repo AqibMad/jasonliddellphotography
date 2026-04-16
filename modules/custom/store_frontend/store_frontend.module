@@ -14,25 +14,32 @@
 function store_frontend_form_alter(&$form, &$form_state, $form_id) {
   // Match commerce order item forms (add to cart forms)
   if (strpos($form_id, 'add_to_cart_form') !== FALSE) {
-    // Save existing submit handlers
-    $existing_submit = isset($form['#submit']) ? $form['#submit'] : [];
-    
-    // Set our custom submit handler first
-    $form['#submit'] = ['store_frontend_add_to_cart_submit'];
-    
-    // Then add back the existing handlers
-    $form['#submit'] = array_merge($form['#submit'], $existing_submit);
+    // Append our handler LAST so redirect happens after all other processing
+    if (!isset($form['#submit'])) {
+      $form['#submit'] = [];
+    }
+    $form['#submit'][] = 'store_frontend_add_to_cart_submit';
   }
+}
+
+/**
+ * Implements hook_form_commerce_order_item_add_to_cart_form_alter().
+ * Target the specific add to cart form with higher priority.
+ */
+function store_frontend_form_commerce_order_item_add_to_cart_form_alter(&$form, &$form_state) {
+  // Add our redirect handler
+  if (!isset($form['#submit'])) {
+    $form['#submit'] = [];
+  }
+  $form['#submit'][] = 'store_frontend_add_to_cart_submit';
 }
 
 /**
  * Custom submit handler to redirect to cart page.
  */
 function store_frontend_add_to_cart_submit(&$form, &$form_state) {
-  // Get the redirect destination if set, otherwise default to cart
-  if (!$form_state->getRedirect()) {
-    $form_state->setRedirect('commerce_cart.page');
-  }
+  // Always redirect to cart page after add to cart
+  $form_state->setRedirect('commerce_cart.page');
 }
 
 /**
@@ -90,6 +97,9 @@ function store_frontend_preprocess_commerce_product(&$variables) {
       'combine' => TRUE,
     ],
   ]);
+  
+  // Set redirect to cart page after form submission
+  $form_state->setRedirect('commerce_cart.page');
   
   // Build and assign the form to variables
   $variables['product_add_to_cart_form'] = $form_builder->buildForm($form_object, $form_state);
