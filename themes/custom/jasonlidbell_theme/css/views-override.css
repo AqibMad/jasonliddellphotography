@@ -3,7 +3,7 @@
 /* Override Drupal's default view display */
 body.path-store .views-view-unformatted,
 body.path-store .view-content,
-body.path-store .views-element-container,
+/* body.path-store .views-element-container, */
 body.view--store .views-view-unformatted,
 body.view--store .view-content {
   display: grid !important;
