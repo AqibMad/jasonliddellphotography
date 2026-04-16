@@ -6,22 +6,24 @@
 
       <div class="product-card">
 
-        <h3>{{ product.title.value }}</h3>
-
-        {# Product image #}
-        {% if product.field_image.entity %}
-          <img src="{{ file_url(product.field_image.entity.fileuri) }}" />
+        {% if product.image %}
+          <img src="{{ product.image }}" alt="{{ product.title }}">
         {% endif %}
 
-        {# Price #}
-        {% if product.variations.entity %}
-          <p>
-            {{ product.variations.entity.price.number }} 
-            {{ product.variations.entity.price.currency_code }}
-          </p>
-        {% endif %}
+        <h3>{{ product.title }}</h3>
 
-        <a href="/product/{{ product.id }}" class="btn">View Product</a>
+        <a href="{{ product.url }}" class="btn">
+          View Product
+        </a>
+
+        {# =========================
+           ADD TO CART BUTTON
+           ========================= #}
+        {% if product.variation_id %}
+          <a href="/cart/add/{{ product.variation_id }}" class="cart-btn">
+            Add to Cart
+          </a>
+        {% endif %}
 
       </div>
 
@@ -29,7 +31,6 @@
 
   </div>
 
-  {# Pagination #}
   <div class="pagination">
     {{ pager }}
   </div>
