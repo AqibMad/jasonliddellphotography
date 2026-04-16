@@ -90,6 +90,9 @@ class StoreController extends ControllerBase {
       ],
     ]);
 
+    // Set redirect destination to cart page after add to cart
+    $form_state->setRedirect('commerce_cart.page');
+
     return $form_builder->buildForm($form_object, $form_state);
   }
 
