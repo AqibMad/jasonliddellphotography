@@ -1,0 +1,7 @@
+name: Store Frontend
+type: module
+description: Custom store page for products
+core_version_requirement: ^9 || ^10
+package: Custom
+dependencies:
+  - commerce_product
