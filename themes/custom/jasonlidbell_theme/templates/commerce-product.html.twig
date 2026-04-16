@@ -1,34 +1,30 @@
 {#
 /**
  * @file
- * Modern Commerce Product template with responsive design
+ * WooCommerce-style single product template
+ * Mimics WooCommerce single product page layout
  */
 #}
 
-<div{{ attributes.addClass('product-page') }}>
-  <div class="product-container">
+<div{{ attributes.addClass('woocommerce-product-page') }}>
+  <div class="woocommerce-container">
 
-    {# Product Header #}
-    <div class="product-header">
-      <h1 class="product-title">{{ product_entity.title.value }}</h1>
-    </div>
+    <div class="woocommerce-product-layout">
 
-    <div class="product-content">
-
-      {# Product Images #}
-      <div class="product-gallery">
+      {# Product Gallery #}
+      <div class="woocommerce-product-gallery">
         {% if product_entity.field_image is defined and product_entity.field_image.value %}
-          <div class="product-images">
+          <div class="woocommerce-product-images">
             {% for image in product_entity.field_image %}
-              <div class="product-image-wrapper">
+              <div class="woocommerce-product-image">
                 <img src="{{ file_url(image.entity.uri.value) }}"
                      alt="{{ image.alt ?: product_entity.title.value }}"
-                     class="product-image">
+                     class="wp-post-image">
               </div>
             {% endfor %}
           </div>
         {% else %}
-          <div class="product-image-placeholder">
+          <div class="woocommerce-product-image-placeholder">
             <div class="placeholder-content">
               <span class="placeholder-icon">📷</span>
               <p>No image available</p>
@@ -37,48 +33,50 @@
         {% endif %}
       </div>
 
-      {# Product Details #}
-      <div class="product-details">
+      {# Product Summary #}
+      <div class="woocommerce-product-summary">
+
+        {# Product Title #}
+        <h1 class="woocommerce-product-title">{{ product_entity.title.value }}</h1>
 
         {# Product Price #}
         {% if product_entity.field_price is defined and product_entity.field_price.value %}
-          <div class="product-price-section">
-            <div class="price-label">Price</div>
-            <div class="product-prices">
-              {% for price in product_entity.field_price %}
-                <div class="price-item">
-                  <span class="price-symbol">
-                    {% if price.currency_code == 'USD' %}$
-                    {% elseif price.currency_code == 'EUR' %}€
-                    {% elseif price.currency_code == 'GBP' %}£
-                    {% elseif price.currency_code == 'INR' %}₹
-                    {% elseif price.currency_code == 'JPY' %}¥
-                    {% elseif price.currency_code == 'AUD' %}A$
-                    {% elseif price.currency_code == 'CAD' %}C$
-                    {% elseif price.currency_code == 'CHF' %}CHF
-                    {% else %}{{ price.currency_code }}
-                    {% endif %}
-                  </span>
-                  <span class="price-amount">{{ price.number }}</span>
-                </div>
-              {% endfor %}
-            </div>
+          <p class="woocommerce-price">
+            {% for price in product_entity.field_price %}
+              <span class="woocommerce-price-amount">
+                <span class="woocommerce-price-currency-symbol">
+                  {% if price.currency_code == 'USD' %}$
+                  {% elseif price.currency_code == 'EUR' %}€
+                  {% elseif price.currency_code == 'GBP' %}£
+                  {% elseif price.currency_code == 'INR' %}₹
+                  {% elseif price.currency_code == 'JPY' %}¥
+                  {% elseif price.currency_code == 'AUD' %}A$
+                  {% elseif price.currency_code == 'CAD' %}C$
+                  {% elseif price.currency_code == 'CHF' %}CHF
+                  {% else %}{{ price.currency_code }}
+                  {% endif %}
+                </span>
+                <span class="woocommerce-price-number">{{ price.number|number_format(2, '.', '') }}</span>
+              </span>
+            {% endfor %}
+          </p>
+        {% endif %}
+
+        {# Short Description #}
+        {% if product_entity.body is defined and product_entity.body.summary %}
+          <div class="woocommerce-product-excerpt">
+            {{ product_entity.body.summary|raw }}
           </div>
         {% endif %}
 
-        {# Product Description #}
-        {% if product_entity.body is defined and product_entity.body.value %}
-          <div class="product-description">
-            <h3>Description</h3>
-            <div class="description-content">
-              {{ product_entity.body.value|raw }}
-            </div>
-          </div>
-        {% endif %}
+        {# Add to Cart Form #}
+        <div class="woocommerce-cart-form">
+          {{ product.variations }}
+        </div>
 
-        {# Download Files #}
+        {# Downloads Section #}
         {% if product_entity.field_download_file is defined and product_entity.field_download_file.value %}
-          <div class="product-downloads">
+          <div class="woocommerce-product-downloads">
             <h3>Downloads</h3>
             <div class="download-links">
               {% for file in product_entity.field_download_file %}
@@ -94,36 +92,38 @@
           </div>
         {% endif %}
 
-        {# Add to Cart Form - Fixed #}
-        <div class="product-purchase">
-          {% if product_entity.variations %}
-            {% for variation in product_entity.variations %}
-              <div class="variation-item">
-                <form action="/commerce/cart/add" method="post" class="commerce-add-to-cart-form">
-                  <input type="hidden" name="product_id" value="{{ product_entity.product_id.value }}">
-                  <input type="hidden" name="variation_id" value="{{ variation.variation_id.value }}">
-
-                  <div class="quantity-selector">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="99">
-                  </div>
-
-                  <button type="submit" class="add-to-cart-btn">
-                    <span class="btn-icon">🛒</span>
-                    <span class="btn-text">Add to Cart</span>
-                  </button>
-                </form>
-              </div>
-            {% endfor %}
-          {% else %}
-            <div class="no-variations">
-              <p>This product is not available for purchase.</p>
-            </div>
-          {% endif %}
-        </div>
-
       </div>
+
     </div>
 
-  </div>
+    {# Product Description #}
+    {% if product_entity.body is defined and product_entity.body.value %}
+      <div class="woocommerce-product-description-section">
+        <h2>Description</h2>
+        <div class="woocommerce-product-description">
+          {{ product_entity.body.value|raw }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# Additional Information #}
+    {% if product_entity.field_download_file is defined and product_entity.field_download_file.value %}
+      <div class="woocommerce-product-additional-info">
+        <h2>Additional Information</h2>
+        <table class="woocommerce-product-attributes">
+          <tbody>
+            <tr>
+              <th>Downloads</th>
+              <td>
+                <ul>
+                  {% for file in product_entity.field_download_file %}
+                    <li>{{ file.entity.filename.value }} ({{ file.entity.filesize.value|number_format(0, '.', ',') }} bytes)</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
 </div>

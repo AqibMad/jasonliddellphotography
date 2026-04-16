@@ -36,7 +36,9 @@ body {
     opacity: 1;
     pointer-events: all;
 }
-
+.path-cart .container {
+    display: block;
+}
 @media (max-width: 768px) {
     .mobile-overlay {
         display: block;
