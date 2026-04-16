@@ -107,6 +107,12 @@ function store_frontend_theme($existing, $type, $theme, $path) {
         'pager' => NULL,
       ],
       'template' => 'store-product-list',
+      'path' => $path . '/templates',
+    ],
+    'commerce_product' => [
+      'base hook' => 'commerce_product',
+      'template' => 'commerce-product',
+      'path' => $path . '/templates',
     ],
   ];
 }
