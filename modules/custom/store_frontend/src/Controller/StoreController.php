@@ -4,25 +4,19 @@ namespace Drupal\store_frontend\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\commerce_product\Entity\Product;
+use Drupal\Core\Form\FormState;
 use Symfony\Component\HttpFoundation\Request;
 
 class StoreController extends ControllerBase {
 
   public function store(Request $request) {
-
     $limit = 12;
 
-    // =========================
-    // PAGINATION
-    // =========================
-    $page = \Drupal::request()->query->get('page', 0);
+    $page = (int) \Drupal::request()->query->get('page', 0);
     $offset = $page * $limit;
 
     $storage = \Drupal::entityTypeManager()->getStorage('commerce_product');
 
-    // =========================
-    // PRODUCT QUERY
-    // =========================
     $query = $storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 1)
@@ -32,66 +26,71 @@ class StoreController extends ControllerBase {
     $pids = $query->execute();
     $products = Product::loadMultiple($pids);
 
-    // =========================
-    // FORMAT FOR TWIG
-    // =========================
     $items = [];
+    $current_langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
     foreach ($products as $product) {
-
-      // -------------------------
-      // IMAGE
-      // -------------------------
       $image_url = NULL;
 
       if ($product->hasField('field_image') && !$product->get('field_image')->isEmpty()) {
         $file = $product->get('field_image')->entity;
-        $image_url = \Drupal::service('file_url_generator')
-          ->generateAbsoluteString($file->getFileUri());
-      }
-
-      // -------------------------
-      // VARIATION (SAFE)
-      // -------------------------
-      $variation_id = NULL;
-
-      if ($product->hasField('variations') && !$product->get('variations')->isEmpty()) {
-        $variation = $product->get('variations')->entity;
-
-        if ($variation) {
-          $variation_id = $variation->id();
+        if ($file) {
+          $image_url = \Drupal::service('file_url_generator')
+            ->generateAbsoluteString($file->getFileUri());
         }
       }
 
-      // -------------------------
-      // FINAL ITEM ARRAY
-      // -------------------------
+      $cart_form = $this->buildAddToCartForm($product, $current_langcode);
+
       $items[] = [
+        'id' => $product->id(),
         'title' => $product->label(),
         'url' => $product->toUrl()->toString(),
         'image' => $image_url,
-        'variation_id' => $variation_id,
+        'cart_form' => $cart_form,
       ];
     }
 
-    // =========================
-    // TOTAL COUNT
-    // =========================
-    $total = $storage->getQuery()
-        ->accessCheck(TRUE)
-        ->condition('status', 1)
-        ->count()
-        ->execute();
-
-    // =========================
-    // RETURN
-    // =========================
     return [
-        '#theme' => 'store_product_list',
-        '#products' => $items,
-        '#pager' => [
-            '#type' => 'pager',
-        ],
+      '#theme' => 'store_product_list',
+      '#products' => $items,
+      '#pager' => [
+        '#type' => 'pager',
+      ],
     ];
   }
+
+  protected function buildAddToCartForm($product, $langcode = NULL) {
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $form_builder = \Drupal::formBuilder();
+
+    if ($langcode) {
+      $product = \Drupal::service('entity.repository')
+        ->getTranslationFromContext($product, $langcode);
+    }
+
+    $default_variation = $product->getDefaultVariation();
+    if (!$default_variation) {
+      return [];
+    }
+
+    $order_item_storage = $entity_type_manager->getStorage('commerce_order_item');
+    $order_item = $order_item_storage->createFromPurchasableEntity($default_variation);
+
+    $form_object = $entity_type_manager->getFormObject('commerce_order_item', 'add_to_cart');
+    $form_object->setEntity($order_item);
+
+    $form_object->setFormId($form_object->getBaseFormId() . '_commerce_product_' . $product->id());
+
+    $form_state = (new FormState())->setFormState([
+      'product' => $product,
+      'view_mode' => 'default',
+      'settings' => [
+        'combine' => TRUE,
+      ],
+    ]);
+
+    return $form_builder->buildForm($form_object, $form_state);
+  }
+
 }

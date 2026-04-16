@@ -1,9 +1,7 @@
 <div class="store-page">
-
   <div class="product-grid">
 
     {% for product in products %}
-
       <div class="product-card">
 
         {% if product.image %}
@@ -16,17 +14,11 @@
           View Product
         </a>
 
-        {# =========================
-           ADD TO CART BUTTON
-           ========================= #}
-        {% if product.variation_id %}
-          <a href="/cart/add/{{ product.variation_id }}" class="cart-btn">
-            Add to Cart
-          </a>
-        {% endif %}
+        <div class="woocommerce-cart-form">
+          {{ product.cart_form }}
+        </div>
 
       </div>
-
     {% endfor %}
 
   </div>
@@ -34,5 +26,4 @@
   <div class="pagination">
     {{ pager }}
   </div>
-
 </div>
