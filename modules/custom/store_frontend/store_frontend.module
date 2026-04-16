@@ -1,0 +1,112 @@
+<?php
+
+/**
+ * @file
+ * Store Frontend Module
+ * Handles custom store page and product display functionality
+ */
+
+
+/**
+ * Implements hook_form_alter().
+ * Add redirect to cart page after adding product to cart.
+ */
+function store_frontend_form_alter(&$form, &$form_state, $form_id) {
+  // Match commerce order item forms (add to cart forms)
+  if (strpos($form_id, 'add_to_cart_form') !== FALSE) {
+    // Save existing submit handlers
+    $existing_submit = isset($form['#submit']) ? $form['#submit'] : [];
+    
+    // Set our custom submit handler first
+    $form['#submit'] = ['store_frontend_add_to_cart_submit'];
+    
+    // Then add back the existing handlers
+    $form['#submit'] = array_merge($form['#submit'], $existing_submit);
+  }
+}
+
+/**
+ * Custom submit handler to redirect to cart page.
+ */
+function store_frontend_add_to_cart_submit(&$form, &$form_state) {
+  // Get the redirect destination if set, otherwise default to cart
+  if (!$form_state->getRedirect()) {
+    $form_state->setRedirect('commerce_cart.page');
+  }
+}
+
+/**
+ * Implements hook_preprocess_commerce_product().
+ * Prepares product variations form and adds product metadata for rendering.
+ */
+function store_frontend_preprocess_commerce_product(&$variables) {
+  $product_entity = $variables['product_entity'] ?? NULL;
+  
+  if (!$product_entity) {
+    return;
+  }
+  
+  // Add product-specific variables
+  $variables['product_id'] = $product_entity->id();
+  $variables['product_bundle'] = $product_entity->bundle();
+  
+  // Add custom classes for styling
+  $variables['attributes']['class'][] = 'commerce-product';
+  $variables['attributes']['class'][] = 'commerce-product--' . str_replace('_', '-', $product_entity->bundle());
+  
+  // Handle multiple currency prices
+  if ($product_entity->hasField('field_price') && !$product_entity->get('field_price')->isEmpty()) {
+    $prices = [];
+    foreach ($product_entity->get('field_price') as $price_item) {
+      $prices[] = [
+        'amount' => $price_item->number,
+        'currency' => $price_item->currency_code,
+      ];
+    }
+    $variables['product_prices'] = $prices;
+  }
+  
+  // Get the default variation
+  $default_variation = $product_entity->getDefaultVariation();
+  if (!$default_variation) {
+    return;
+  }
+  
+  // Build the order item add to cart form
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $form_builder = \Drupal::formBuilder();
+  
+  $order_item_storage = $entity_type_manager->getStorage('commerce_order_item');
+  $order_item = $order_item_storage->createFromPurchasableEntity($default_variation);
+  
+  $form_object = $entity_type_manager->getFormObject('commerce_order_item', 'add_to_cart');
+  $form_object->setEntity($order_item);
+  
+  $form_state = new \Drupal\Core\Form\FormState();
+  $form_state->setFormState([
+    'product' => $product_entity,
+    'view_mode' => 'default',
+    'settings' => [
+      'combine' => TRUE,
+    ],
+  ]);
+  
+  // Build and assign the form to variables
+  $variables['product_add_to_cart_form'] = $form_builder->buildForm($form_object, $form_state);
+}
+
+/**
+ * Implements hook_theme().
+ * Define custom theme hooks for store module.
+ */
+function store_frontend_theme($existing, $type, $theme, $path) {
+  return [
+    'store_product_list' => [
+      'variables' => [
+        'products' => NULL,
+        'pager' => NULL,
+      ],
+      'template' => 'store-product-list',
+    ],
+  ];
+}
