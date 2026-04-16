@@ -3,6 +3,13 @@
 use Drupal\node\NodeInterface;
 use Drupal\file\Entity\File;
 
+function jasonlidbell_theme_preprocess_region(&$variables) {
+  if ($variables['region'] == 'sidebar_first') {
+    $variables['custom_logo'] = theme_get_setting('logo.url');
+    $variables['site_name'] = \Drupal::config('system.site')->get('name');
+  }
+}
+
 function jasonlidbell_theme_preprocess_html(&$variables) {
   $current_path = \Drupal::service('path.current')->getPath();
   $path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
