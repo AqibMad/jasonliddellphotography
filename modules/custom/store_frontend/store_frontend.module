@@ -156,3 +156,38 @@ function store_frontend_user_logout($account) {
   // Clear the redirect flag when user logs out.
   \Drupal::request()->getSession()->remove('store_frontend_redirected');
 }
+
+/**
+ * Implements hook_user_view_alter().
+ */
+function store_frontend_user_view_alter(&$build, $account, $view_mode) {
+  // Sirf client role ke liye.
+  if (in_array('client', $account->getRoles())) {
+    // Store link.
+    $store_link = [
+      '#type' => 'link',
+      '#title' => t('Go to Store'),
+      '#url' => \Drupal\Core\Url::fromRoute('store_frontend.store'),
+      '#attributes' => [
+        'class' => ['button', 'button--store'],
+      ],
+    ];
+    
+    // Logout link.
+    $logout_link = [
+      '#type' => 'link',
+      '#title' => t('Logout'),
+      '#url' => \Drupal\Core\Url::fromRoute('user.logout'),
+      '#attributes' => [
+        'class' => ['button', 'button--logout'],
+      ],
+    ];
+    
+    // Inhe user profile ke 'overview' field group mein add karte hain.
+    $build['store_frontend_links'] = [
+      '#weight' => 10,
+      'store_link' => $store_link,
+      'logout_link' => $logout_link,
+    ];
+  }
+}
