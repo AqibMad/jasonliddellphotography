@@ -1,0 +1,10 @@
+services:
+  store_frontend.route_subscriber:
+    class: Drupal\store_frontend\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  store_frontend.login_redirect_subscriber:
+    class: Drupal\store_frontend\EventSubscriber\LoginRedirectSubscriber
+    arguments: ['@current_user', '@current_route_match']
+    tags:
+      - { name: event_subscriber }

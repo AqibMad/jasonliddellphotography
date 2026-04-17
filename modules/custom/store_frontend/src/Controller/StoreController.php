@@ -6,6 +6,8 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\commerce_product\Entity\Product;
 use Drupal\Core\Form\FormState;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 
 class StoreController extends ControllerBase {
 
@@ -94,6 +96,15 @@ class StoreController extends ControllerBase {
     $form_state->setRedirect('commerce_cart.page');
 
     return $form_builder->buildForm($form_object, $form_state);
+  }
+
+  public function access(AccountInterface $account) {
+    $allowed_roles = ['administrator', 'client'];
+    $user_roles = $account->getRoles();
+    if (array_intersect($allowed_roles, $user_roles)) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
   }
 
 }

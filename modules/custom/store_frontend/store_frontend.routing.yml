@@ -4,4 +4,4 @@ store_frontend.store:
     _controller: '\Drupal\store_frontend\Controller\StoreController::store'
     _title: 'Store'
   requirements:
-    _permission: 'access content'
+    _custom_access: '\Drupal\store_frontend\Controller\StoreController::access'
