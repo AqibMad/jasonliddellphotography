@@ -14,16 +14,24 @@ class StoreController extends ControllerBase {
   public function store(Request $request) {
     $limit = 12;
 
-    $page = (int) \Drupal::request()->query->get('page', 0);
+    $page = (int) $request->query->get('page', 0);
     $offset = $page * $limit;
 
     $storage = \Drupal::entityTypeManager()->getStorage('commerce_product');
-
     $query = $storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('status', 1)
       ->sort('created', 'DESC')
       ->range($offset, $limit);
+
+    // --- Client role filtering ---
+    $current_user = \Drupal::currentUser();
+    if (in_array('client', $current_user->getRoles())) {
+      $user_id = $current_user->id();
+      // Sirf wahi products jinme current user assigned hai.
+      $query->condition('field_assigned_clients', $user_id);
+    }
+    // Admin aur others ke liye koi condition nahi, sab products dikhenge.
 
     $pids = $query->execute();
     $products = Product::loadMultiple($pids);
