@@ -914,9 +914,17 @@ $databases['default']['default'] = array (
 
 $settings['config_sync_directory'] = 'sites/default/files/config_agbcIcNVIb9K1RUS__FnMqixVUEOYlauMGpnnvDPCWt8ryCpyCY4PbLztmtx2qzod76Hqehi1w';
 
+$config['smtp.settings']['smtp_on'] = TRUE;
+$config['smtp.settings']['smtp_host'] = 'smtp.gmail.com';
+$config['smtp.settings']['smtp_port'] = '587';
+$config['smtp.settings']['smtp_protocol'] = 'tls';
+$config['smtp.settings']['smtp_username'] = 'aqibjaveed.mad@gmail.com';
+$config['smtp.settings']['smtp_password'] = 'vfkatagsahmxdsdf';
+$config['smtp.settings']['smtp_from'] = 'aqibjaveed.mad@gmail.com';
+$config['smtp.settings']['smtp_fromname'] = 'Drupal Site';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
 
-$config['system.logging']['error_level'] = 'verbose';
+// $config['system.logging']['error_level'] = 'verbose';
