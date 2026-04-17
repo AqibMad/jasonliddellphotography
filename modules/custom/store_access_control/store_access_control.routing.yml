@@ -1,7 +1,0 @@
-store_access_control.pending:
-  path: '/store/pending-approval'
-  defaults:
-    _controller: '\Drupal\store_access_control\Controller\StoreAccessController::pending'
-    _title: 'Pending Approval'
-  requirements:
-    _access: 'TRUE'

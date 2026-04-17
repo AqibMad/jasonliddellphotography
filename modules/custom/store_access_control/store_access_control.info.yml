@@ -1,5 +1,0 @@
-name: Store Access Control
-type: module
-description: Full commerce protection system for store
-core_version_requirement: ^10 || ^11
-package: Custom
