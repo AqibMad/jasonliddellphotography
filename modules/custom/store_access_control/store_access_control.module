@@ -1,0 +1,46 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+function store_access_control_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  $user = \Drupal::currentUser();
+
+  if ($user->isAnonymous()) {
+    return;
+  }
+
+  $account = \Drupal\user\Entity\User::load($user->id());
+
+  if (!$account) return;
+
+  // ADD TO CART BLOCK
+  if (str_contains($form_id, 'commerce_order_item_add_to_cart_form')) {
+    if (
+      !$account->hasRole('client') ||
+      !$account->get('field_store_approved')->value
+    ) {
+      $form['actions']['submit']['#access'] = FALSE;
+    }
+  }
+
+  // CART BLOCK
+  if ($form_id === 'commerce_cart_form') {
+    if (
+      !$account->hasRole('client') ||
+      !$account->get('field_store_approved')->value
+    ) {
+      $form['#access'] = FALSE;
+    }
+  }
+
+  // CHECKOUT BLOCK
+  if (str_contains($form_id, 'commerce_checkout_flow')) {
+    if (
+      !$account->hasRole('client') ||
+      !$account->get('field_store_approved')->value
+    ) {
+      $form['#access'] = FALSE;
+    }
+  }
+}
