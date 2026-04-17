@@ -7,6 +7,5 @@
 # =========================
 # Drupal core / scaffold (if web root is project root)
 # =========================
-/sites/default/files/
-/sites/default/settings.php
-/sites/default/default.settings.php
+sites/default/files/
+sites/*/settings*.php
