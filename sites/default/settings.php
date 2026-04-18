@@ -923,8 +923,8 @@ $config['smtp.settings']['smtp_password'] = 'vfkatagsahmxdsdf';
 $config['smtp.settings']['smtp_from'] = 'aqibjaveed.mad@gmail.com';
 $config['smtp.settings']['smtp_fromname'] = 'Drupal Site';
 
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
-// $config['system.logging']['error_level'] = 'verbose';
+$config['system.logging']['error_level'] = 'verbose';

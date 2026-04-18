@@ -5,3 +5,11 @@ store_frontend.store:
     _title: 'Store'
   requirements:
     _custom_access: '\Drupal\store_frontend\Controller\StoreController::access'
+
+store_frontend.members:
+  path: '/members'
+  defaults:
+    _controller: '\Drupal\store_frontend\Controller\MemberController::members'
+    _title: 'Members Area'
+  requirements:
+    _custom_access: '\Drupal\store_frontend\Controller\MemberController::access'

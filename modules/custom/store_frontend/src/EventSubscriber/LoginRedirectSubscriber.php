@@ -41,7 +41,6 @@ class LoginRedirectSubscriber implements EventSubscriberInterface {
    * Redirects client role users to store after login.
    */
   public function onRequest(RequestEvent $event) {
-    // Only run for master request.
     if (!$event->isMainRequest()) {
       return;
     }
@@ -49,27 +48,28 @@ class LoginRedirectSubscriber implements EventSubscriberInterface {
     $request = $event->getRequest();
     $session = $request->getSession();
 
-    // Check if we have already redirected after this login.
     if ($session->get('store_frontend_redirected')) {
       return;
     }
 
-    // Get current route name.
     $current_route = $this->routeMatch->getRouteName();
+    $user = $this->currentUser;
 
-    // If user is logging in, we check after login. Actually, we need to detect
-    // that user just logged in. Better to use a flag set in hook_user_login.
-    // But simpler: check if current user is authenticated and has 'client' role,
-    // and the current route is not already '/store' or '/user/login' etc.
-    if ($this->currentUser->isAuthenticated() &&
-        in_array('client', $this->currentUser->getRoles()) &&
-        $current_route !== 'store_frontend.store' &&
-        $current_route !== 'user.login') {
+    if ($user->isAuthenticated()) {
+      $roles = $user->getRoles();
+      $redirect_url = NULL;
 
-      // Also avoid redirect if there's a destination parameter.
-      if (!$request->query->has('destination')) {
-        $url = Url::fromRoute('store_frontend.store')->toString();
-        $event->setResponse(new RedirectResponse($url));
+      // Client role -> /store
+      if (in_array('client', $roles) && $current_route !== 'store_frontend.store' && $current_route !== 'user.login') {
+        $redirect_url = Url::fromRoute('store_frontend.store')->toString();
+      }
+      // Member role (level 1,2,3) -> /members
+      elseif (store_frontend_get_user_max_member_level($user) > 0 && $current_route !== 'store_frontend.members' && $current_route !== 'user.login') {
+        $redirect_url = Url::fromRoute('store_frontend.members')->toString();
+      }
+
+      if ($redirect_url && !$request->query->has('destination')) {
+        $event->setResponse(new RedirectResponse($redirect_url));
         $session->set('store_frontend_redirected', TRUE);
       }
     }

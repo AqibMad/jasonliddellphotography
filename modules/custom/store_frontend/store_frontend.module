@@ -5,7 +5,7 @@
  * Store Frontend Module
  * Handles custom store page and product display functionality
  */
-
+use Drupal\Core\Url;
 
 /**
  * Implements hook_form_alter().
@@ -124,6 +124,15 @@ function store_frontend_theme($existing, $type, $theme, $path) {
       'template' => 'commerce-product',
       'path' => $path . '/templates',
     ],
+    'member_products_list' => [
+      'variables' => [
+        'products' => NULL,
+        'user_level' => NULL,
+        'user_level_name' => NULL,
+      ],
+      'template' => 'member-products-list',
+      'path' => $path . '/templates',
+    ],
   ];
 }
 
@@ -132,6 +141,16 @@ function store_frontend_theme($existing, $type, $theme, $path) {
  */
 function store_frontend_entity_access(\Drupal\Core\Entity\EntityInterface $entity, $operation, \Drupal\Core\Session\AccountInterface $account) {
   if ($entity->getEntityTypeId() === 'commerce_product' && $operation === 'view') {
+
+    if ($entity->bundle() == 'member_product') {
+      $user_max_level = store_frontend_get_user_max_member_level($account);
+      $required_level = $entity->get('field_member_level')->value ?? 0;
+      if ($user_max_level >= $required_level && $user_max_level > 0) {
+        return \Drupal\Core\Access\AccessResult::allowed();
+      }
+      return \Drupal\Core\Access\AccessResult::forbidden();
+    }
+
     $allowed_roles = ['administrator', 'client'];
     if (!array_intersect($allowed_roles, $account->getRoles())) {
       return \Drupal\Core\Access\AccessResult::forbidden();
@@ -176,33 +195,68 @@ function store_frontend_user_logout($account) {
  * Implements hook_user_view_alter().
  */
 function store_frontend_user_view_alter(&$build, $account, $view_mode) {
-  // Sirf client role ke liye.
-  if (in_array('client', $account->getRoles())) {
-    // Store link.
-    $store_link = [
-      '#type' => 'link',
-      '#title' => t('Go to Store'),
-      '#url' => \Drupal\Core\Url::fromRoute('store_frontend.store'),
-      '#attributes' => [
-        'class' => ['button', 'button--store'],
-      ],
-    ];
+  $current_user = \Drupal::currentUser();
+  
+  // Sirf wahi user apna profile dekh raha hai (ya admin)
+  if ($current_user->id() == $account->id() || $current_user->hasPermission('administer users')) {
     
-    // Logout link.
-    $logout_link = [
+    $links = [];
+    
+    // Client ke liye store link
+    if (in_array('client', $account->getRoles())) {
+      $links['store_link'] = [
+        '#type' => 'link',
+        '#title' => t('Go to Store'),
+        '#url' => \Drupal\Core\Url::fromRoute('store_frontend.store'),  // Fully qualified
+        '#attributes' => ['class' => ['button', 'button--store']],
+      ];
+    }
+    
+    // Member ke liye members area link
+    $member_level = store_frontend_get_user_max_member_level($account);
+    if ($member_level > 0) {
+      $links['members_link'] = [
+        '#type' => 'link',
+        '#title' => t('Go to Members Area'),
+        '#url' => \Drupal\Core\Url::fromRoute('store_frontend.members'), // Fully qualified
+        '#attributes' => ['class' => ['button', 'button--members']],
+      ];
+    }
+    
+    // Logout link sabke liye
+    $links['logout_link'] = [
       '#type' => 'link',
       '#title' => t('Logout'),
-      '#url' => \Drupal\Core\Url::fromRoute('user.logout'),
-      '#attributes' => [
-        'class' => ['button', 'button--logout'],
-      ],
+      '#url' => \Drupal\Core\Url::fromRoute('user.logout'), // Fully qualified
+      '#attributes' => ['class' => ['button', 'button--logout']],
     ];
     
-    // Inhe user profile ke 'overview' field group mein add karte hain.
-    $build['store_frontend_links'] = [
-      '#weight' => 10,
-      'store_link' => $store_link,
-      'logout_link' => $logout_link,
-    ];
+    if (!empty($links)) {
+      $build['store_frontend_links'] = $links + [
+        '#weight' => 10,
+        '#prefix' => '<div class="user-links">',
+        '#suffix' => '</div>',
+      ];
+    }
   }
+}
+
+/**
+ * Get user's maximum membership level (1,2,3) based on roles.
+ */
+function store_frontend_get_user_max_member_level($account) {
+  $roles = $account->getRoles();
+  if (in_array('member_level_3', $roles)) return 3;
+  if (in_array('member_level_2', $roles)) return 2;
+  if (in_array('member_level_1', $roles)) return 1;
+  return 0;
+}
+
+/**
+ * Get display name for a level number.
+ */
+function store_frontend_get_level_name($level_num) {
+  $config = \Drupal::config('store_frontend.settings');
+  $name = $config->get("level_{$level_num}_name");
+  return $name ?: "Level $level_num";
 }

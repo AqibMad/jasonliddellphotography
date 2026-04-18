@@ -1,0 +1,20 @@
+<div class="members-area">
+  <h1>Welcome, {{ user_level_name }} Member</h1>
+  <p>Here are the membership products available for your level:</p>
+
+  <div class="membership-products-grid">
+    {% for product in products %}
+      <div class="membership-card level-{{ product.level_name|lower }}">
+        {% if product.image %}
+          <img src="{{ product.image }}" alt="{{ product.title }}">
+        {% endif %}
+        <h3>{{ product.title }}</h3>
+        <p class="level-badge">{{ product.level_name }}</p>
+        <a href="{{ product.url }}" class="btn btn-details">View Details</a>
+        <div class="cart-form">
+          {{ product.cart_form }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
