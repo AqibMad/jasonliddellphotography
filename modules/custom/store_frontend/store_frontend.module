@@ -266,19 +266,16 @@ function store_frontend_get_level_name($level_num) {
 }
 
 /**
- * Check: user has completed order for a membership level.
+ * Check if user has active membership for level.
  */
 function store_frontend_member_has_active_membership($uid, $level) {
 
   $order_storage = \Drupal::entityTypeManager()->getStorage('commerce_order');
 
-  // Step 1: Get only completed orders of user (SAFE SQL QUERY)
-  $query = $order_storage->getQuery()
+  $order_ids = $order_storage->getQuery()
     ->accessCheck(TRUE)
     ->condition('uid', $uid)
-    ->condition('state', 'completed');
-
-  $order_ids = $query->execute();
+    ->execute();
 
   if (empty($order_ids)) {
     return FALSE;
@@ -286,26 +283,43 @@ function store_frontend_member_has_active_membership($uid, $level) {
 
   $orders = Order::loadMultiple($order_ids);
 
-  // Step 2: Inspect order items in PHP (NO BROKEN ENTITY QUERY)
   foreach ($orders as $order) {
+
+    // ❗ DO NOT depend only on "completed"
+    if (!in_array($order->getState()->getId(), ['completed', 'placed', 'draft'])) {
+      continue;
+    }
 
     foreach ($order->getItems() as $item) {
 
-      $purchased_entity = $item->getPurchasedEntity();
+      $purchased = $item->getPurchasedEntity();
 
-      if (!$purchased_entity) {
+      if (!$purchased) {
         continue;
       }
 
-      // Ensure field exists
-      if (!$purchased_entity->hasField('field_member_level')) {
-        continue;
+      // Check BOTH product AND variation fallback
+      $entity = $purchased;
+
+      if ($entity->hasField('field_member_level') && !$entity->get('field_member_level')->isEmpty()) {
+        $item_level = (int) $entity->get('field_member_level')->value;
+
+        if ($item_level === (int) $level) {
+          return TRUE;
+        }
       }
 
-      $item_level = (int) $purchased_entity->get('field_member_level')->value;
+      // fallback: check product level if variation has no field
+      if ($entity->getEntityTypeId() === 'commerce_product_variation') {
+        $product = $entity->getProduct();
 
-      if ($item_level === (int) $level) {
-        return TRUE;
+        if ($product && $product->hasField('field_member_level')) {
+          $item_level = (int) $product->get('field_member_level')->value;
+
+          if ($item_level === (int) $level) {
+            return TRUE;
+          }
+        }
       }
     }
   }
