@@ -5,15 +5,36 @@
   <div class="membership-products-grid">
     {% for product in products %}
       <div class="membership-card level-{{ product.level_name|lower }}">
+
         {% if product.image %}
           <img src="{{ product.image }}" alt="{{ product.title }}">
         {% endif %}
+
         <h3>{{ product.title }}</h3>
         <p class="level-badge">{{ product.level_name }}</p>
-        <a href="{{ product.url }}" class="btn btn-details">View Details</a>
-        <div class="cart-form">
-          {{ product.cart_form }}
-        </div>
+
+        {% if product.is_locked %}
+          <div class="membership-locked">
+            <p>🔒 Membership locked</p>
+            <p>Please purchase to unlock access</p>
+          </div>
+
+          {% if product.cart_form %}
+            <div class="cart-form">
+              {{ product.cart_form }}
+            </div>
+          {% endif %}
+
+        {% else %}
+          <div class="membership-active">
+            <p>✅ Membership Active</p>
+          </div>
+
+          <a href="{{ product.url }}" class="btn btn-details">
+            View Details
+          </a>
+        {% endif %}
+
       </div>
     {% endfor %}
   </div>

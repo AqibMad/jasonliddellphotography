@@ -71,7 +71,20 @@ class MemberController extends ControllerBase {
       }
 
       // 🛒 Add to cart form
-      $cart_form = $this->buildAddToCartForm($product);
+      $uid = $current_user->id();
+      $level_num = (int) ($product->get('field_member_level')->value ?? 0);
+
+      // Purchase check (LEVEL-based)
+      $has_membership = store_frontend_member_has_active_membership($uid, $level_num);
+
+      $is_locked = TRUE;
+      $cart_form = NULL;
+
+      if ($has_membership) {
+        $is_locked = FALSE;
+      } else {
+        $cart_form = $this->buildAddToCartForm($product);
+      }
 
       // 🏷 Level label from config/helper
       $level_name = store_frontend_get_level_name($level_num);
@@ -82,6 +95,7 @@ class MemberController extends ControllerBase {
         'level_name' => $level_name,
         'image' => $image_url,
         'cart_form' => $cart_form,
+        'is_locked' => $is_locked,
         'url' => $product->toUrl()->toString(),
       ];
     }

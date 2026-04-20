@@ -6,6 +6,10 @@
  * Handles custom store page and product display functionality
  */
 use Drupal\Core\Url;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+use Drupal\commerce_order\Entity\Order;
 
 /**
  * Implements hook_form_alter().
@@ -259,4 +263,93 @@ function store_frontend_get_level_name($level_num) {
   $config = \Drupal::config('store_frontend.settings');
   $name = $config->get("level_{$level_num}_name");
   return $name ?: "Level $level_num";
+}
+
+/**
+ * Check: user has completed order for a membership level.
+ */
+function store_frontend_member_has_active_membership($uid, $level) {
+
+  $order_storage = \Drupal::entityTypeManager()->getStorage('commerce_order');
+
+  // Step 1: Get only completed orders of user (SAFE SQL QUERY)
+  $query = $order_storage->getQuery()
+    ->accessCheck(TRUE)
+    ->condition('uid', $uid)
+    ->condition('state', 'completed');
+
+  $order_ids = $query->execute();
+
+  if (empty($order_ids)) {
+    return FALSE;
+  }
+
+  $orders = Order::loadMultiple($order_ids);
+
+  // Step 2: Inspect order items in PHP (NO BROKEN ENTITY QUERY)
+  foreach ($orders as $order) {
+
+    foreach ($order->getItems() as $item) {
+
+      $purchased_entity = $item->getPurchasedEntity();
+
+      if (!$purchased_entity) {
+        continue;
+      }
+
+      // Ensure field exists
+      if (!$purchased_entity->hasField('field_member_level')) {
+        continue;
+      }
+
+      $item_level = (int) $purchased_entity->get('field_member_level')->value;
+
+      if ($item_level === (int) $level) {
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Check: user can access level-based content.
+ */
+function store_frontend_user_can_access_level_content($account, $required_level) {
+  $user_level = (int) store_frontend_get_user_max_member_level($account);
+
+  // Exact level match (your requirement)
+  if ($user_level !== (int) $required_level) {
+    return FALSE;
+  }
+
+  // Must have purchased membership (completed order)
+  return store_frontend_member_has_active_membership($account->id(), $required_level);
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function store_frontend_node_access(EntityInterface $entity, $operation, AccountInterface $account) {
+
+  if ($entity->getEntityTypeId() !== 'node') {
+    return AccessResult::neutral();
+  }
+
+  if ($operation !== 'view') {
+    return AccessResult::neutral();
+  }
+
+  if (!$entity->hasField('field_member_level') || $entity->get('field_member_level')->isEmpty()) {
+    return AccessResult::neutral();
+  }
+
+  $required_level = (int) $entity->get('field_member_level')->value;
+
+  if (store_frontend_user_can_access_level_content($account, $required_level)) {
+    return AccessResult::allowed()->cachePerUser();
+  }
+
+  return AccessResult::forbidden()->cachePerUser();
 }

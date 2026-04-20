@@ -2,16 +2,16 @@
 
 namespace Drupal\store_frontend\EventSubscriber;
 
+use Drupal\Core\Routing\CurrentRouteMatch;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Url;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
-use Drupal\Core\Url;
 
 /**
- * Redirects client role users to /store after login.
+ * Redirects users after login based on role.
  */
 class LoginRedirectSubscriber implements EventSubscriberInterface {
 
@@ -38,7 +38,7 @@ class LoginRedirectSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Redirects client role users to store after login.
+   * Redirect after login only.
    */
   public function onRequest(RequestEvent $event) {
     if (!$event->isMainRequest()) {
@@ -46,32 +46,33 @@ class LoginRedirectSubscriber implements EventSubscriberInterface {
     }
 
     $request = $event->getRequest();
-    $session = $request->getSession();
+    $current_route = $this->routeMatch->getRouteName();
 
-    if ($session->get('store_frontend_redirected')) {
+    // Only run on login route.
+    if ($current_route !== 'user.login') {
       return;
     }
 
-    $current_route = $this->routeMatch->getRouteName();
     $user = $this->currentUser;
 
-    if ($user->isAuthenticated()) {
-      $roles = $user->getRoles();
-      $redirect_url = NULL;
+    if (!$user->isAuthenticated()) {
+      return;
+    }
 
-      // Client role -> /store
-      if (in_array('client', $roles) && $current_route !== 'store_frontend.store' && $current_route !== 'user.login') {
-        $redirect_url = Url::fromRoute('store_frontend.store')->toString();
-      }
-      // Member role (level 1,2,3) -> /members
-      elseif (store_frontend_get_user_max_member_level($user) > 0 && $current_route !== 'store_frontend.members' && $current_route !== 'user.login') {
-        $redirect_url = Url::fromRoute('store_frontend.members')->toString();
-      }
+    $roles = $user->getRoles();
+    $redirect_url = NULL;
 
-      if ($redirect_url && !$request->query->has('destination')) {
-        $event->setResponse(new RedirectResponse($redirect_url));
-        $session->set('store_frontend_redirected', TRUE);
-      }
+    // Member roles first.
+    if (store_frontend_get_user_max_member_level($user) > 0) {
+      $redirect_url = Url::fromRoute('store_frontend.members')->toString();
+    }
+    // Client role.
+    elseif (in_array('client', $roles, TRUE)) {
+      $redirect_url = Url::fromRoute('store_frontend.store')->toString();
+    }
+
+    if ($redirect_url) {
+      $event->setResponse(new RedirectResponse($redirect_url));
     }
   }
 
@@ -80,7 +81,7 @@ class LoginRedirectSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return [
-      KernelEvents::REQUEST => ['onRequest', -100], // Low priority.
+      KernelEvents::REQUEST => ['onRequest', -100],
     ];
   }
 
