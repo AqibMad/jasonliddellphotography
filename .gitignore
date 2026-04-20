@@ -8,4 +8,4 @@
 # Drupal core / scaffold (if web root is project root)
 # =========================
 sites/default/files/
-sites/*/settings*.php
+sites/default/settings.php
