@@ -137,6 +137,13 @@ function store_frontend_theme($existing, $type, $theme, $path) {
       'template' => 'member-products-list',
       'path' => $path . '/templates',
     ],
+    'member_product_single' => [
+      'variables' => [
+        'product' => NULL,
+      ],
+      'template' => 'member-product-single',
+      'path' => $path . '/templates',
+    ],
   ];
 }
 
@@ -285,8 +292,8 @@ function store_frontend_member_has_active_membership($uid, $level) {
 
   foreach ($orders as $order) {
 
-    // ❗ DO NOT depend only on "completed"
-    if (!in_array($order->getState()->getId(), ['completed', 'placed', 'draft'])) {
+    // ❗ Only check completed orders for active membership
+    if ($order->getState()->getId() !== 'completed') {
       continue;
     }
 

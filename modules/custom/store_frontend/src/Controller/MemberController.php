@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Form\FormState;
+use Drupal\Core\Url;
 use Drupal\commerce_product\Entity\Product;
 use Drupal\commerce_product\Entity\ProductInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -96,7 +97,7 @@ class MemberController extends ControllerBase {
         'image' => $image_url,
         'cart_form' => $cart_form,
         'is_locked' => $is_locked,
-        'url' => $product->toUrl()->toString(),
+        'url' => Url::fromRoute('store_frontend.member_product', ['product_id' => $product->id()])->toString(),
       ];
     }
 
@@ -165,6 +166,72 @@ class MemberController extends ControllerBase {
     return $level > 0
       ? AccessResult::allowed()
       : AccessResult::forbidden();
+  }
+
+  /**
+   * Display single member product.
+   */
+  public function memberProduct($product_id) {
+    $current_user = $this->currentUser();
+    $user_level = (int) store_frontend_get_user_max_member_level($current_user);
+
+    if ($user_level <= 0) {
+      return [
+        '#markup' => $this->t('Access denied.'),
+      ];
+    }
+
+    $product = Product::load($product_id);
+    if (!$product || $product->bundle() !== 'member_product') {
+      return [
+        '#markup' => $this->t('Product not found.'),
+      ];
+    }
+
+    // Check if product matches user level
+    $product_level = (int) ($product->get('field_member_level')->value ?? 0);
+    if ($product_level !== $user_level) {
+      return [
+        '#markup' => $this->t('Access denied to this product.'),
+      ];
+    }
+
+    // Check if user has active membership
+    $uid = $current_user->id();
+    $has_membership = store_frontend_member_has_active_membership($uid, $product_level);
+
+    // Build product data
+    $image_url = NULL;
+    if ($product->hasField('field_image') && !$product->get('field_image')->isEmpty()) {
+      $file = $product->get('field_image')->entity;
+      if ($file) {
+        $image_url = $this->fileUrlGenerator()
+          ->generateAbsoluteString($file->getFileUri());
+      }
+    }
+
+    $cart_form = NULL;
+    if (!$has_membership) {
+      $cart_form = $this->buildAddToCartForm($product);
+    }
+
+    $level_name = store_frontend_get_level_name($product_level);
+
+    return [
+      '#theme' => 'member_product_single',
+      '#product' => [
+        'id' => $product->id(),
+        'title' => $product->label(),
+        'body' => $product->get('body')->value ?? '',
+        'level_name' => $level_name,
+        'image' => $image_url,
+        'cart_form' => $cart_form,
+        'has_membership' => $has_membership,
+      ],
+      '#cache' => [
+        'contexts' => ['user.roles'],
+      ],
+    ];
   }
 
 }

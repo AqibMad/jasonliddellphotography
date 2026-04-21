@@ -13,3 +13,12 @@ store_frontend.members:
     _title: 'Members Area'
   requirements:
     _custom_access: '\Drupal\store_frontend\Controller\MemberController::access'
+
+store_frontend.member_product:
+  path: '/members/product/{product_id}'
+  defaults:
+    _controller: '\Drupal\store_frontend\Controller\MemberController::memberProduct'
+    _title: 'Member Product'
+  requirements:
+    _custom_access: '\Drupal\store_frontend\Controller\MemberController::access'
+    product_id: \d+

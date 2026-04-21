@@ -1,0 +1,31 @@
+<div class="member-product-single">
+  <h1>{{ product.title }}</h1>
+  <p class="level-badge">{{ product.level_name }}</p>
+
+  {% if product.image %}
+    <img src="{{ product.image }}" alt="{{ product.title }}">
+  {% endif %}
+
+  <div class="product-body">
+    {{ product.body|raw }}
+  </div>
+
+  {% if product.has_membership %}
+    <div class="membership-active">
+      <p>✅ Membership Active</p>
+    </div>
+  {% else %}
+    <div class="membership-locked">
+      <p>🔒 Membership locked</p>
+      <p>Please purchase to unlock access</p>
+    </div>
+
+    {% if product.cart_form %}
+      <div class="cart-form">
+        {{ product.cart_form }}
+      </div>
+    {% endif %}
+  {% endif %}
+
+  <a href="/members" class="btn btn-back">Back to Members Area</a>
+</div>
