@@ -81,7 +81,7 @@ class MemberController extends ControllerBase {
       $level_num = (int) ($product->get('field_member_level')->value ?? 0);
 
       // Purchase check (LEVEL-based)
-      $has_membership = store_frontend_member_has_active_membership($uid, $level_num);
+      $has_membership = store_frontend_member_has_active_full_membership($uid, $level_num);
 
       $is_locked = TRUE;
       $cart_form = NULL;
@@ -210,11 +210,14 @@ class MemberController extends ControllerBase {
    * Access control: only members allowed.
    */
   public function access(AccountInterface $account) {
-    $level = (int) store_frontend_get_user_max_member_level($account);
-
-    return $level > 0
-      ? AccessResult::allowed()
-      : AccessResult::forbidden();
+    // Allow users who have a member role OR any gift‑based membership.
+    if ((int) store_frontend_get_user_max_member_level($account) > 0) {
+      return AccessResult::allowed();
+    }
+    if (store_frontend_user_has_gift_membership($account->id())) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
   }
 
   /**
@@ -247,7 +250,7 @@ class MemberController extends ControllerBase {
 
     // Check if user has active membership
     $uid = $current_user->id();
-    $has_membership = store_frontend_member_has_active_membership($uid, $product_level);
+    $has_membership = store_frontend_member_has_active_full_membership($uid, $product_level);
 
     // Build product data
     $image_url = NULL;

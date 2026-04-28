@@ -154,12 +154,20 @@ function store_frontend_entity_access(\Drupal\Core\Entity\EntityInterface $entit
   if ($entity->getEntityTypeId() === 'commerce_product' && $operation === 'view') {
 
     if ($entity->bundle() == 'member_product') {
-      $user_max_level = store_frontend_get_user_max_member_level($account);
-      $required_level = $entity->get('field_member_level')->value ?? 0;
-      if ($user_max_level >= $required_level && $user_max_level > 0) {
-        return \Drupal\Core\Access\AccessResult::allowed();
-      }
-      return \Drupal\Core\Access\AccessResult::forbidden();
+        $user_max_level = store_frontend_get_user_max_member_level($account);
+        $required_level = $entity->get('field_member_level')->value ?? 0;
+
+        // Allow if user has purchased membership for this level (existing).
+        if ($user_max_level >= $required_level && $user_max_level > 0) {
+          return AccessResult::allowed();
+        }
+
+        // Allow if the user is in the gift list of ANY product at this level.
+        if (store_frontend_user_has_gift_membership($account->id(), $required_level)) {
+          return AccessResult::allowed();
+        }
+
+        return AccessResult::forbidden();
     }
 
     $allowed_roles = ['administrator', 'client'];
@@ -270,6 +278,44 @@ function store_frontend_get_level_name($level_num) {
   $config = \Drupal::config('store_frontend.settings');
   $name = $config->get("level_{$level_num}_name");
   return $name ?: "Level $level_num";
+}
+
+/**
+ * Check if a user has gift‑based membership for a given level.
+ *
+ * @param int $uid
+ *   The user ID.
+ * @param int $level
+ *   The minimum membership level required (1,2,3). If 0, checks any level.
+ *
+ * @return bool
+ */
+function store_frontend_user_has_gift_membership($uid, $level = 0) {
+  $query = \Drupal::entityTypeManager()->getStorage('commerce_product')->getQuery();
+  $query->condition('type', 'member_product');
+  $query->condition('field_gift_users', $uid);
+  if ($level > 0) {
+    $query->condition('field_member_level', $level, '>=');
+  }
+  $query->accessCheck(FALSE);
+  $count = $query->count()->execute();
+  return $count > 0;
+}
+
+/**
+ * Check if a user has any kind of active membership (purchased or gifted).
+ *
+ * @param int $uid
+ * @param int $level
+ * @return bool
+ */
+function store_frontend_member_has_active_full_membership($uid, $level) {
+  // 1. Purchased membership (existing logic)
+  if (store_frontend_member_has_active_membership($uid, $level)) {
+    return TRUE;
+  }
+  // 2. Gift‑based membership
+  return store_frontend_user_has_gift_membership($uid, $level);
 }
 
 /**
