@@ -14,7 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 class MemberController extends ControllerBase {
 
   /**
-   * Display member products based on exact membership level.
+   * Display member products based on membership level hierarchy.
+   * Level 3 sees 1, 2, and 3; level 2 sees 1 and 2; level 1 sees only 1.
    */
   public function members(Request $request) {
     $current_user = $this->currentUser();
@@ -29,11 +30,12 @@ class MemberController extends ControllerBase {
     $product_storage = $this->entityTypeManager()->getStorage('commerce_product');
 
     // 🔥 Strict filtering at query level (best performance)
+    // Inclusive membership: allow products for any level <= current user level.
     $query = $product_storage->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'member_product')
       ->condition('status', 1)
-      ->condition('field_member_level', $user_level)
+      ->condition('field_member_level', $user_level, '<=')
       ->sort('created', 'DESC');
 
     $pids = $query->execute();
@@ -57,7 +59,7 @@ class MemberController extends ControllerBase {
 
       $level_num = (int) ($product->get('field_member_level')->value ?? 0);
 
-      if ($level_num !== $user_level) {
+      if ($level_num > $user_level) {
         continue;
       }
 
@@ -188,9 +190,9 @@ class MemberController extends ControllerBase {
       ];
     }
 
-    // Check if product matches user level
+    // Allow access to any product at or below the user's membership level.
     $product_level = (int) ($product->get('field_member_level')->value ?? 0);
-    if ($product_level !== $user_level) {
+    if ($product_level > $user_level) {
       return [
         '#markup' => $this->t('Access denied to this product.'),
       ];

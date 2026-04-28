@@ -311,7 +311,7 @@ function store_frontend_member_has_active_membership($uid, $level) {
       if ($entity->hasField('field_member_level') && !$entity->get('field_member_level')->isEmpty()) {
         $item_level = (int) $entity->get('field_member_level')->value;
 
-        if ($item_level === (int) $level) {
+        if ($item_level >= (int) $level) {
           return TRUE;
         }
       }
@@ -323,7 +323,7 @@ function store_frontend_member_has_active_membership($uid, $level) {
         if ($product && $product->hasField('field_member_level')) {
           $item_level = (int) $product->get('field_member_level')->value;
 
-          if ($item_level === (int) $level) {
+          if ($item_level >= (int) $level) {
             return TRUE;
           }
         }
@@ -340,12 +340,12 @@ function store_frontend_member_has_active_membership($uid, $level) {
 function store_frontend_user_can_access_level_content($account, $required_level) {
   $user_level = (int) store_frontend_get_user_max_member_level($account);
 
-  // Exact level match (your requirement)
-  if ($user_level !== (int) $required_level) {
+  // Inclusive level access: higher membership levels inherit lower levels.
+  if ($user_level < (int) $required_level) {
     return FALSE;
   }
 
-  // Must have purchased membership (completed order)
+  // Must have purchased membership (completed order) at this level or above.
   return store_frontend_member_has_active_membership($account->id(), $required_level);
 }
 
