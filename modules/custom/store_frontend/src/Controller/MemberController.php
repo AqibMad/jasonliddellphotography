@@ -73,7 +73,10 @@ class MemberController extends ControllerBase {
         }
       }
 
-      // 🛒 Add to cart form
+      // � Membership price
+      $price_display = $this->getProductPriceLabel($product);
+
+      // �🛒 Add to cart form
       $uid = $current_user->id();
       $level_num = (int) ($product->get('field_member_level')->value ?? 0);
 
@@ -97,6 +100,7 @@ class MemberController extends ControllerBase {
         'title' => $product->label(),
         'level_name' => $level_name,
         'image' => $image_url,
+        'price' => $price_display,
         'cart_form' => $cart_form,
         'is_locked' => $is_locked,
         'url' => Url::fromRoute('store_frontend.member_product', ['product_id' => $product->id()])->toString(),
@@ -157,6 +161,49 @@ class MemberController extends ControllerBase {
     $form_state->setRedirect('commerce_cart.page');
 
     return $form_builder->buildForm($form_object, $form_state);
+  }
+
+  /**
+   * Get price label for a member product or its default variation.
+   */
+  protected function getProductPriceLabel(ProductInterface $product) {
+    $price_item = NULL;
+
+    if ($product->hasField('field_price') && !$product->get('field_price')->isEmpty()) {
+      $price_item = $product->get('field_price')->first();
+    }
+
+    if (!$price_item) {
+      $default_variation = $product->getDefaultVariation();
+      if ($default_variation && $default_variation->hasField('price') && !$default_variation->get('price')->isEmpty()) {
+        $price_item = $default_variation->get('price')->first();
+      }
+    }
+
+    if (!$price_item) {
+      return NULL;
+    }
+
+    $amount = $price_item->number ?? NULL;
+    $currency = $price_item->currency_code ?? NULL;
+
+    if ($amount === NULL || $currency === NULL) {
+      return NULL;
+    }
+
+    $symbols = [
+      'USD' => '$',
+      'EUR' => '€',
+      'GBP' => '£',
+      'INR' => '₹',
+      'JPY' => '¥',
+      'AUD' => 'A$',
+      'CAD' => 'C$',
+      'CHF' => 'CHF',
+    ];
+
+    $symbol = $symbols[$currency] ?? $currency . ' ';
+    return $symbol . number_format($amount, 2, '.', '');
   }
 
   /**
@@ -227,6 +274,7 @@ class MemberController extends ControllerBase {
         'body' => $product->get('body')->value ?? '',
         'level_name' => $level_name,
         'image' => $image_url,
+        'price' => $this->getProductPriceLabel($product),
         'cart_form' => $cart_form,
         'has_membership' => $has_membership,
       ],

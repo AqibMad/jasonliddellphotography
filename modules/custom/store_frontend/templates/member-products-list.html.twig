@@ -11,6 +11,9 @@
         {% endif %}
 
         <h3>{{ product.title }}</h3>
+        {% if product.price %}
+          <p class="membership-price">{{ product.price }}</p>
+        {% endif %}
         <p class="level-badge">{{ product.level_name }}</p>
 
         {% if product.is_locked %}

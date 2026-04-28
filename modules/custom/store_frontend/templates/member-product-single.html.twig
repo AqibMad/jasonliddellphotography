@@ -1,5 +1,8 @@
 <div class="member-product-single">
   <h1>{{ product.title }}</h1>
+  {% if product.price %}
+    <p class="membership-price">{{ product.price }}</p>
+  {% endif %}
   <p class="level-badge">{{ product.level_name }}</p>
 
   {% if product.image %}
